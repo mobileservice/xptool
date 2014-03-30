@@ -1,0 +1,1 @@
+path=E:\Java\JDK7\bin;E:\adt-bundle-windows-x86-20130219\sdk\platform-tools
