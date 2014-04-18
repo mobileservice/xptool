@@ -1,10 +1,12 @@
 package zju.ccnt.xptools.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Paint.FontMetricsInt;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.InputDevice;
 import android.view.KeyEvent;
@@ -16,13 +18,16 @@ import android.view.MotionEvent.PointerCoords;
 
 import java.util.ArrayList;
 
+import zju.ccnt.xptools.LoggerService;
+import zju.ccnt.xptools.MainActivity;
 import zju.ccnt.xptools.mode.TouchDataModel;
 
 public class TraceView extends View {
+	Context mContext;
     private static final String TAG = "Pointer";
-    
+    private TouchDataModel touchDataModel = new TouchDataModel();
     public static class PointerState {
-    	TouchDataModel touchDataModel;
+    	//TouchDataModel touchDataModel;
     	
         // Trace of previous points.
         private float[] mTraceX = new float[32];
@@ -37,14 +42,51 @@ public class TraceView extends View {
         private int mToolType;
         
         // Most recent velocity.
-        private float mXVelocity;
+        private float mXVelocity ;
         private float mYVelocity;
+        
+        //veloctiy of previous pionts
+        private float[] mVelocityX = new float[32];
+        private float[] mVelocityY = new float[32];
+        
+        //Time of previous points
+        private long[] mTime = new long[32];
+        
+        //Pressure of previous points
+        private float[] mPressure = new float[32];
 
         // Position estimator.
         private VelocityTracker.Estimator mEstimator = new VelocityTracker.Estimator();
 
         public void clearTrace() {
             mTraceCount = 0;
+        }
+        public void addParam(float velocityX, float velocityY , long time, float pressure){
+        	int traceCapacity = mVelocityX.length;
+        	if (mTraceCount == traceCapacity) {
+                traceCapacity *= 2;
+               
+                float[] newXVelocity = new float[traceCapacity];
+                System.arraycopy(mXVelocity, 0, newXVelocity, 0, mTraceCount);
+                mVelocityX = newXVelocity;
+                
+                float[] newYVelocity = new float[traceCapacity];
+                System.arraycopy(mYVelocity, 0, newYVelocity, 0, mTraceCount);
+                mVelocityY = newYVelocity;
+                
+                long[] newTime = new long[traceCapacity];
+                System.arraycopy(mTime, 0, newTime, 0, mTraceCount);
+                mTime = newTime;
+                
+                float[] newPressure = new float[traceCapacity];
+                System.arraycopy(mPressure, 0, newPressure, 0, mTraceCount);
+                mPressure = newPressure;
+            }
+   
+            mVelocityX[mTraceCount] = velocityX;
+            mVelocityY[mTraceCount] = velocityY;
+            mTime[mTraceCount] = time;
+            mPressure[mTraceCount] = pressure;
         }
         
         public void addTrace(float x, float y) {
@@ -58,6 +100,7 @@ public class TraceView extends View {
                 float[] newTraceY = new float[traceCapacity];
                 System.arraycopy(mTraceY, 0, newTraceY, 0, mTraceCount);
                 mTraceY = newTraceY;
+                
             }
             
             mTraceX[mTraceCount] = x;
@@ -94,6 +137,7 @@ public class TraceView extends View {
     
     public TraceView(Context c) {
         super(c);
+        mContext=c;
         setFocusableInTouchMode(true);
         
 
@@ -130,6 +174,13 @@ public class TraceView extends View {
         mVelocity = VelocityTracker.obtain();
         
         logInputDeviceCapabilities();
+    }
+    //by zhouqj
+    public String getDeviceId(){
+    	String deviceId = null;
+    	TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+    	deviceId = tm.getDeviceId();
+    	return deviceId;
     }
     
     private void logInputDeviceCapabilities() {
@@ -509,6 +560,7 @@ public class TraceView extends View {
                     }
                     if (ps != null) {
                         ps.addTrace(coords.x, coords.y);
+                        ps.addParam(-1, -1, event.getHistoricalEventTime(i), event.getHistoricalPressure(i, historyPos));
                     }
                 }
             }
@@ -523,6 +575,7 @@ public class TraceView extends View {
                 }
                 if (ps != null) {
                     ps.addTrace(coords.x, coords.y);
+                    ps.addParam(mVelocity.getXVelocity(id), mVelocity.getYVelocity(id), event.getEventTime(), event.getPressure(i));
                     ps.mXVelocity = mVelocity.getXVelocity(id);
                     ps.mYVelocity = mVelocity.getYVelocity(id);
                     mVelocity.getEstimator(id, -1, -1, ps.mEstimator);

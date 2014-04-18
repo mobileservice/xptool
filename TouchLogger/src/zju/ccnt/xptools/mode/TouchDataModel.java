@@ -26,11 +26,13 @@ public class TouchDataModel {
 	public static String CURRENTACTIVITY = "current_activity";
 	
 	private int id;
+	private String device_id;
 	private String current_app;
 	private String current_activity;
+	//多指、多点
 	private ArrayList<ArrayList<PointData>> trace_detail;
 	
-	public void TouchDataModel(){
+	public TouchDataModel(){
 		trace_detail=new ArrayList<ArrayList<PointData>>();
 	}
 	
@@ -40,6 +42,14 @@ public class TouchDataModel {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public String getDevice_id() {
+		return device_id;
+	}
+
+	public void setDevice_id(String device_id) {
+		this.device_id = device_id;
+	}
+
 	public String getCurrent_app() {
 		return current_app;
 	}
@@ -59,7 +69,9 @@ public class TouchDataModel {
 	private void setTrace_detail(ArrayList<ArrayList<PointData>> trace_detail) {
 		this.trace_detail = trace_detail;
 	}
-
+	private void addPointDatas(ArrayList<PointData> pointDatas){
+		this.trace_detail.add(pointDatas);
+	}
 
 	/**
 	 * 每个像素点的位置、速度、压力等信息
