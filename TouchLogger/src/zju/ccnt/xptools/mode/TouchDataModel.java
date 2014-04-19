@@ -24,11 +24,14 @@ public class TouchDataModel {
 	public static String CURRENTAPP = "current_app";
 	//当前activity
 	public static String CURRENTACTIVITY = "current_activity";
+	//当前package
+	public static String CURRENTPACKAGE = "current_package";
 	
 	private int id;
 	private String device_id;
 	private String current_app;
 	private String current_activity;
+	private String current_package;
 	//多指、多点
 	private ArrayList<ArrayList<PointData>> trace_detail;
 	
@@ -63,13 +66,21 @@ public class TouchDataModel {
 		this.current_activity = current_activity;
 	}
 	
-	private ArrayList<ArrayList<PointData>> getTrace_detail() {
+	public String getCurrent_package() {
+		return current_package;
+	}
+
+	public void setCurrent_package(String current_package) {
+		this.current_package = current_package;
+	}
+
+	public ArrayList<ArrayList<PointData>> getTrace_detail() {
 		return trace_detail;
 	}
-	private void setTrace_detail(ArrayList<ArrayList<PointData>> trace_detail) {
+	public void setTrace_detail(ArrayList<ArrayList<PointData>> trace_detail) {
 		this.trace_detail = trace_detail;
 	}
-	private void addPointDatas(ArrayList<PointData> pointDatas){
+	public void addPointDatas(ArrayList<PointData> pointDatas){
 		this.trace_detail.add(pointDatas);
 	}
 
@@ -86,5 +97,8 @@ public class TouchDataModel {
 		public float pressure;
 		public float extimateX;
 		public float extimateY;
+		public PointData(){
+			this.calendar =  Calendar.getInstance();
+		}
 	}
 }

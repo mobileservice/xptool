@@ -23,7 +23,8 @@ public class MyWindowManager {
 	final Object mLock = new Object();
 	private Context mContext=null;
 	private IWindowManager mWindowManager=null;
-	PointerLocationView mPointerLocationView = null;
+//	PointerLocationView mPointerLocationView = null;
+	TraceView mPointerLocationView = null;
 	private View addView=null;
 	Handler mHandler;
 	InputChannel mPointerLocationInputChannel=null;
@@ -34,7 +35,7 @@ public class MyWindowManager {
 		mContext=context;
 		mWindowManager=IWindowManager.Stub
 	               .asInterface(ServiceManager.getService("window"));
-		mPointerLocationView=new PointerLocationView(mContext);
+		mPointerLocationView=new TraceView(mContext);
 		addView=mPointerLocationView;
 		mHandler=new Handler();
 		Log.d(TAG, "strucurer 2");
@@ -94,7 +95,7 @@ public class MyWindowManager {
         if (mPointerLocationInputChannel == null) {  
             try {  
                 mPointerLocationInputChannel =  
-                    mWindowManager.monitorInput("PointerLocationView");  
+                    mWindowManager.monitorInput("TraceView");  
                 
                 InputQueue.registerInputChannel(mPointerLocationInputChannel,  
                         mPointerLocationInputHandler, mHandler.getLooper().getQueue());  
