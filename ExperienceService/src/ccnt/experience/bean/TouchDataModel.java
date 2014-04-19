@@ -23,7 +23,7 @@ public class TouchDataModel {
 	private String current_app;
 	private String current_activity;
 	private ArrayList<ArrayList<PointData>> trace_detail;
-
+	private int device_id;
 	public void TouchDataModel() {
 		trace_detail = new ArrayList<ArrayList<PointData>>();
 	}
@@ -52,12 +52,20 @@ public class TouchDataModel {
 		this.current_activity = current_activity;
 	}
 
-	private ArrayList<ArrayList<PointData>> getTrace_detail() {
+	public ArrayList<ArrayList<PointData>> getTrace_detail() {
 		return trace_detail;
 	}
 
 	private void setTrace_detail(ArrayList<ArrayList<PointData>> trace_detail) {
 		this.trace_detail = trace_detail;
+	}
+
+	public int getDevice_id() {
+		return device_id;
+	}
+
+	public void setDevice_id(int device_id) {
+		this.device_id = device_id;
 	}
 
 	/**
