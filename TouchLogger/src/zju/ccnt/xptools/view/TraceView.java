@@ -28,6 +28,7 @@ import zju.ccnt.xptools.mode.TouchDataModel.PointData;
 public class TraceView extends View {
 	Context mContext;
     private static final String TAG = "Pointer";
+    
     //private TouchDataModel touchDataModel = new TouchDataModel();
     public static class PointerState {
     	
