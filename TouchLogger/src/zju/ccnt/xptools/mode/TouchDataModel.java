@@ -95,6 +95,7 @@ public class TouchDataModel {
 		public float xVelocity;
 		public float yVelocity;
 		public float pressure;
+		//Ô¤²â×ø±êÖµ
 		public float extimateX;
 		public float extimateY;
 		public PointData(){

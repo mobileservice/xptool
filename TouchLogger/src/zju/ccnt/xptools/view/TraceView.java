@@ -666,6 +666,7 @@ public class TraceView extends View {
 								pd.extimateX = Integer.MAX_VALUE;
 								pd.extimateY = Integer.MAX_VALUE;
 							}else {
+								//Ô¤²â×ø±êÖµ
 								pd.extimateX = ps1.mEstimator.estimateX(ESTIMATE_INTERVAL);
 								pd.extimateY = ps1.mEstimator.estimateY(ESTIMATE_INTERVAL);
 							}
