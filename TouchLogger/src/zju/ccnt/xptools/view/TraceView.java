@@ -20,16 +20,16 @@ import android.view.MotionEvent.PointerCoords;
 
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import zju.ccnt.xptools.LoggerService;
+import zju.ccnt.xptools.MainActivity;
 import zju.ccnt.xptools.mode.TouchDataModel;
 import zju.ccnt.xptools.mode.TouchDataModel.PointData;
 
 public class TraceView extends View {
 	Context mContext;
     private static final String TAG = "Pointer";
+    
+    //private TouchDataModel touchDataModel = new TouchDataModel();
     public static class PointerState {
     	
         // Trace of previous points.
@@ -139,9 +139,6 @@ public class TraceView extends View {
     
     private boolean mPrintCoords = true;
     
-    private JsonGenerator jsonGenerator = null;
-    private ObjectMapper objectMapper = null;
-
     public TraceView(Context c) {
         super(c);
         mContext=c;
@@ -520,7 +517,6 @@ public class TraceView extends View {
                 	TouchDataModel touchDataModel = new TouchDataModel();
                     for (int p=0; p<NP; p++) {
                         final PointerState ps = mPointers.get(p);
-                       //by zhouqj
                         /*ArrayList<PointData> pointDatas = new ArrayList<TouchDataModel.PointData>();
                         for (int i = 0; i < ps.mTraceCount; i++) {
 							PointData pd = new TouchDataModel().new PointData();
@@ -531,23 +527,33 @@ public class TraceView extends View {
 							pd.yVelocity = ps.mVelocityY[i];
 							pd.pressure = ps.mPressure[i];							
 							if (i != (ps.mTraceCount -1)) {
-								pd.extimateX = Integer.MAX_VALUE;
-								pd.extimateY = Integer.MAX_VALUE;
+								pd.extimateX = -1;
+								pd.extimateY = -1;
 							}else {
-								//Ô¤²â×ø±êÖµ
 								pd.extimateX = ps.mEstimator.estimateX(ESTIMATE_INTERVAL);
 								pd.extimateY = ps.mEstimator.estimateY(ESTIMATE_INTERVAL);
 							}
 							pointDatas.add(pd);
-							Log.i("xptools", "x:" + pd.x);
-							Log.i("xptools", "y:" + pd.y);
-							Log.i("xptools", "xVelocity:" + pd.xVelocity);
-							Log.i("xptools", "yVelocity:" + pd.yVelocity);
-							Log.i("xptools", "pressure:" + pd.pressure);
-							Log.i("xptools", "extimateX:" + pd.extimateX);
-							Log.i("xptools", "extimateY:" + pd.extimateY);
 						}
-                        Log.i("xptools", "TraceCount:" + ps.mTraceCount);
+                        touchDataModel.addPointDatas(pointDatas);*/
+                        /*ArrayList<PointData> pointDatas = new ArrayList<TouchDataModel.PointData>();
+                        for (int i = 0; i < ps.mTraceCount; i++) {
+							PointData pd = new TouchDataModel().new PointData();
+							pd.calendar.setTimeInMillis(ps.mTime[i]);
+							pd.x = ps.mTraceX[i];
+							pd.y = ps.mTraceY[i];
+							pd.xVelocity = ps.mVelocityX[i];
+							pd.yVelocity = ps.mVelocityY[i];
+							pd.pressure = ps.mPressure[i];							
+							if (i != (ps.mTraceCount -1)) {
+								pd.extimateX = -1;
+								pd.extimateY = -1;
+							}else {
+								pd.extimateX = ps.mEstimator.estimateX(ESTIMATE_INTERVAL);
+								pd.extimateY = ps.mEstimator.estimateY(ESTIMATE_INTERVAL);
+							}
+							pointDatas.add(pd);
+						}
                         touchDataModel.addPointDatas(pointDatas);*/
                         ps.clearTrace();
                         ps.mCurDown = false;
@@ -562,15 +568,7 @@ public class TraceView extends View {
                     touchDataModel.setDevice_id(deviceId);
                     Log.i("xptools", "className:" + className);
                     Log.i("xptools", "packageName:"+ packageName);
-                    Log.i("xptools", "deviceID:" + deviceId);
-                    objectMapper = new ObjectMapper();
-                    try {
-                    	String json = objectMapper.writeValueAsString(touchDataModel);
-                    	Log.i("xptools", "json:" + json);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}*/
-                    
+                    Log.i("xptools", "deviceID:" + deviceId);*/
                     mCurDown = true;
                     mCurNumPointers = 0;
                     mMaxNumPointers = 0;
@@ -683,7 +681,6 @@ public class TraceView extends View {
 							Log.i("xptools", "extimateY:" + pd.extimateY);							
 						}
                         Log.i("xptools", "TraceCount:" + ps1.mTraceCount);
-                        Log.i("xptools", "finger:" + p);
                         touchDataModel.addPointDatas(pointDatas);
                     }                	
                 	ActivityManager manager = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
@@ -697,14 +694,6 @@ public class TraceView extends View {
                     Log.i("xptools", "className:" + className);
                     Log.i("xptools", "packageName:"+ packageName);
                     Log.i("xptools", "deviceID:" + deviceId);
-                    objectMapper = new ObjectMapper();
-                    try {
-                    	String json = objectMapper.writeValueAsString(touchDataModel);
-                    	Log.i("xptools", "json:" + json);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-                    
                 	//~~
                     mCurDown = false;
                     mCurNumPointers = 0;
