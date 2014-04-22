@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -43,16 +44,17 @@ public class DeviceInfoService {
 	}
 
 	/*
+
 	 * 测试WebService连通性
 	 */
 	public String testConnection() {
 		return "Hello,word!";
 	}
-
 	/*
 	 * 将设备信息存入设备表
 	 * 
 	 * @para:设备信息
+	 * 将设备信息存入设备表
 	 */
 	public String saveDeviceInfo(DeviceInfo deviceInfo) throws SQLException,
 			ClassNotFoundException {
@@ -70,6 +72,7 @@ public class DeviceInfoService {
 		cnnConnection.close();
 		return insertDevice;
 	}
+
 
 	/*
 	 * 将设备信息存入设备表

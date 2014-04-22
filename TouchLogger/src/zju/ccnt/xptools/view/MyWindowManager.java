@@ -21,21 +21,23 @@ import android.view.WindowManager;
 public class MyWindowManager {
 	private String TAG = "TouchLogger";
 	final Object mLock = new Object();
-	private Context mContext = null;
-	private IWindowManager mWindowManager = null;
-	PointerLocationView mPointerLocationView = null;
-	private View addView = null;
+	private Context mContext=null;
+	private IWindowManager mWindowManager=null;
+//	PointerLocationView mPointerLocationView = null;
+	TraceView mPointerLocationView = null;
+	private View addView=null;
 	Handler mHandler;
 	InputChannel mPointerLocationInputChannel = null;
 
 	public MyWindowManager(Context context) {
 		Log.d(TAG, "strucurer 1");
-		mContext = context;
-		mWindowManager = IWindowManager.Stub.asInterface(ServiceManager
-				.getService("window"));
-		mPointerLocationView = new PointerLocationView(mContext);
-		addView = mPointerLocationView;
-		mHandler = new Handler();
+
+		mContext=context;
+		mWindowManager=IWindowManager.Stub
+	               .asInterface(ServiceManager.getService("window"));
+		mPointerLocationView=new TraceView(mContext);
+		addView=mPointerLocationView;
+		mHandler=new Handler();
 		Log.d(TAG, "strucurer 2");
 		setParams();
 		Log.d(TAG, "strucurer 3");
@@ -89,25 +91,24 @@ public class MyWindowManager {
 		WindowManager wm = (WindowManager) mContext
 				.getSystemService(Context.WINDOW_SERVICE);
 		wm.addView(addView, lp);
-
-		if (mPointerLocationInputChannel == null) {
-			try {
-				mPointerLocationInputChannel = mWindowManager
-						.monitorInput("PointerLocationView");
-
-				InputQueue.registerInputChannel(mPointerLocationInputChannel,
-						mPointerLocationInputHandler, mHandler.getLooper()
-								.getQueue());
-			} catch (RemoteException ex) {
-				Log.e(TAG,
-						"Could not set up input monitoring channel for PointerLocation.",
-						ex);
-			}
-		}
-	}
-
-	public void destroy() {
-		// TODO do nothing now
-	}
-
+		
+        if (mPointerLocationInputChannel == null) {  
+            try {  
+                mPointerLocationInputChannel =  
+                    mWindowManager.monitorInput("TraceView");  
+                
+                InputQueue.registerInputChannel(mPointerLocationInputChannel,  
+                        mPointerLocationInputHandler, mHandler.getLooper().getQueue());  
+            } catch (RemoteException ex) {  
+                Log.e(TAG, "Could not set up input monitoring channel for PointerLocation.",  
+                        ex);  
+            }  
+        }  
+    }  
+  
+    public void destroy()
+    {
+    	//TODO do nothing now
+    }
+	
 }

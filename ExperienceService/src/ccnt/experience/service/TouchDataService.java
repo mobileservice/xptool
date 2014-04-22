@@ -1,10 +1,12 @@
 package ccnt.experience.service;
 
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ccnt.experience.bean.TouchDataModel;
 import ccnt.experience.bean.TouchDataModel.PointData;
+
+
+import ccnt.experience.bean.DeviceInfo;
+import ccnt.experience.bean.TouchDataModel;
+
 import ccnt.experience.var.DataBaseInfo;
 
 public class TouchDataService {
@@ -78,6 +85,8 @@ public class TouchDataService {
 
 	/*
 	 * 将动作信息存入动作信息表
+
+	 * 将设备信息存入设备表
 	 */
 	public String saveTouchData(TouchDataModel touchDataModel)
 			throws SQLException, ClassNotFoundException {
