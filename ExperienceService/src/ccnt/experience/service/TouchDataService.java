@@ -1,12 +1,19 @@
 package ccnt.experience.service;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import ccnt.experience.bean.DeviceInfo;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ccnt.experience.bean.TouchDataModel;
+import ccnt.experience.bean.TouchDataModel.PointData;
 import ccnt.experience.var.DataBaseInfo;
 
 public class TouchDataService {
@@ -32,15 +39,55 @@ public class TouchDataService {
 	}
 
 	/*
-	 * 将设备信息存入设备表
+	 * 测试WebService连通性
+	 */
+	public String testConnection() {
+		return "Hello,word!";
+	}
+
+	/*
+	 * 将动作信息中的ArrayList<ArrayList<PointData>>按照格式转为String
+	 * 
+	 * @para:动作信息对应的trace_detail
+	 */
+	private String pointDataToString(
+			ArrayList<ArrayList<PointData>> trace_detail) {
+		StringBuffer resBuffer = new StringBuffer();
+		// 清空resBuffer
+		resBuffer.setLength(0);
+		int fingerCounts = trace_detail.size();
+		resBuffer.append(fingerCounts);
+		for (int i = 0; i < fingerCounts; i++) {
+			resBuffer.append(trace_detail.get(i).size());
+		}
+		for (int i = 0; i < fingerCounts; i++) {
+			for (int j = 0; j < trace_detail.get(i).size(); j++) {
+				PointData pointData = trace_detail.get(i).get(j);
+				resBuffer.append(pointData.calendar);
+				resBuffer.append(pointData.x);
+				resBuffer.append(pointData.y);
+				resBuffer.append(pointData.xVelocity);
+				resBuffer.append(pointData.yVelocity);
+				resBuffer.append(pointData.pressure);
+				resBuffer.append(pointData.extimateX);
+				resBuffer.append(pointData.extimateY);
+			}
+		}
+		return resBuffer.toString();
+	}
+
+	/*
+	 * 将动作信息存入动作信息表
 	 */
 	public String saveTouchData(TouchDataModel touchDataModel)
 			throws SQLException, ClassNotFoundException {
 		getConnection();
 		// touchDataModel.getTrace_detail().toString() 暂时以"ahha"代替
+		String trace_detail = pointDataToString(touchDataModel
+				.getTrace_detail());
 		String insertTouch = "insert into " + DataBaseInfo.TOUCH_DATA_TABLE
 				+ " " + DataBaseInfo.TOUCH_TABLE_FORM + " values ("
-				+ touchDataModel.getId() + ",'" + "ahha" + "','"
+				+ touchDataModel.getId() + ",'" + trace_detail + "','"
 				+ touchDataModel.getCurrent_app() + "','"
 				+ touchDataModel.getCurrent_activity() + "',"
 				+ touchDataModel.getDevice_id() + ")";
@@ -50,4 +97,43 @@ public class TouchDataService {
 		cnnConnection.close();
 		return insertTouch;
 	}
+
+	/*
+	 * 存储一系列的动作到动作信息表
+	 * 
+	 * @para:动作链表
+	 */
+	public String saveTouchData(List<TouchDataModel> touchDataModelList) {
+		try {
+			for (TouchDataModel touchDataModel : touchDataModelList) {
+				saveTouchData(touchDataModel);
+			}
+			return "Done";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "SQLException Error";
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "ClassNotFoundException Error";
+		}
+	}
+
+	/*
+	 * 存储一系列的动作到动作信息表
+	 * 
+	 * @para:一序列动作的JSON格式的String
+	 */
+	// public String saveTouchData(String touchDatalList)
+	// throws JsonParseException, JsonMappingException, IOException {
+	// ObjectMapper mapper = new ObjectMapper();
+	// List<TouchDataModel> touchDataModelList = (List<TouchDataModel>) mapper
+	// .readValue(
+	// touchDatalList,
+	// mapper.getTypeFactory().constructParametricType(
+	// ArrayList.class, TouchDataModel.class));
+	// saveTouchData(touchDataModelList);
+	// return touchDatalList;
+	// }
 }
