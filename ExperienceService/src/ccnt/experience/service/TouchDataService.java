@@ -35,7 +35,7 @@ public class TouchDataService {
 	// }
 
 	/*
-	 * 获取连接
+	 * 获取数据库连接
 	 */
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName(DataBaseInfo.JDBC_DRIVER);
@@ -86,7 +86,7 @@ public class TouchDataService {
 	 * 
 	 * 将设备信息存入设备表
 	 */
-	public String saveTouchData(TouchDataModel touchDataModel)
+	public int saveTouchData(TouchDataModel touchDataModel)
 			throws SQLException, ClassNotFoundException {
 		getConnection();
 		// touchDataModel.getTrace_detail().toString() 暂时以"ahha"代替
@@ -99,10 +99,10 @@ public class TouchDataService {
 				+ touchDataModel.getCurrent_activity() + "',"
 				+ touchDataModel.getDevice_id() + ")";
 		Statement statement = cnnConnection.createStatement();
-		statement.executeUpdate(insertTouch);
+		int ret = statement.executeUpdate(insertTouch);
 		System.out.println(insertTouch);
 		cnnConnection.close();
-		return insertTouch;
+		return ret;
 	}
 
 	/*
@@ -110,21 +110,23 @@ public class TouchDataService {
 	 * 
 	 * @para:动作链表
 	 */
-	public String saveListTouchData(List<TouchDataModel> touchDataModelList) {
+	public int saveListTouchData(List<TouchDataModel> touchDataModelList) {
+		int ret = 0;
 		try {
+			ret = 1;
 			for (TouchDataModel touchDataModel : touchDataModelList) {
-				saveTouchData(touchDataModel);
+				if (saveTouchData(touchDataModel) == 0)
+					ret = 0;
 			}
-			return "Done";
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "SQLException Error";
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "ClassNotFoundException Error";
 		}
+		return ret;
 	}
 
 	/*
@@ -132,7 +134,7 @@ public class TouchDataService {
 	 * 
 	 * @para:一序列动作的JSON格式的String
 	 */
-	public String saveJsonTouchData(String touchDatalList)
+	public int saveJsonTouchData(String touchDatalList)
 			throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		List<TouchDataModel> touchDataModelList = (List<TouchDataModel>) mapper
@@ -140,7 +142,7 @@ public class TouchDataService {
 						touchDatalList,
 						mapper.getTypeFactory().constructParametricType(
 								ArrayList.class, TouchDataModel.class));
-		saveListTouchData(touchDataModelList);
-		return touchDatalList;
+		int ret = saveListTouchData(touchDataModelList);
+		return ret;
 	}
 }

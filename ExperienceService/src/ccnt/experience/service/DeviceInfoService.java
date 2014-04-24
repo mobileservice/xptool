@@ -54,8 +54,11 @@ public class DeviceInfoService {
 	 * 将设备信息存入设备表
 	 * 
 	 * @para:设备信息 将设备信息存入设备表
+	 * 
+	 * @return:(1) the row count for SQL Data Manipulation Language (DML)
+	 * statements (2) 0 for SQL statements that return nothing
 	 */
-	public String saveDeviceInfo(DeviceInfo deviceInfo) throws SQLException,
+	public int saveDeviceInfo(DeviceInfo deviceInfo) throws SQLException,
 			ClassNotFoundException {
 		getConnection();
 		String insertDevice = "insert into " + DataBaseInfo.DEVICE_INFO_TABLE
@@ -67,9 +70,9 @@ public class DeviceInfoService {
 				+ deviceInfo.getModel() + "','" + deviceInfo.getSys_version()
 				+ "'," + deviceInfo.getOut_storage() + ")";
 		Statement statement = cnnConnection.createStatement();
-		statement.executeUpdate(insertDevice);
+		int ret = statement.executeUpdate(insertDevice);
 		cnnConnection.close();
-		return insertDevice;
+		return ret;
 	}
 
 	/*
@@ -78,9 +81,9 @@ public class DeviceInfoService {
 	 * @para:参数为设备信息的JSON格式的字符串
 	 */
 
-	public String saveDeviceInfoJson(String deviceInfo)
-			throws JsonParseException, JsonMappingException, IOException,
-			SQLException, ClassNotFoundException {
+	public int saveDeviceInfoJson(String deviceInfo) throws JsonParseException,
+			JsonMappingException, IOException, SQLException,
+			ClassNotFoundException {
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
