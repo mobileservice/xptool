@@ -81,8 +81,6 @@ public class TouchDataService {
 
 	/*
 	 * 将动作信息存入动作信息表
-	 * 
-	 * 将设备信息存入设备表
 	 */
 	public int saveTouchData(TouchDataModel touchDataModel)
 			throws SQLException, ClassNotFoundException {
