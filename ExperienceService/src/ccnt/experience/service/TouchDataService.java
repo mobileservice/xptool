@@ -16,9 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ccnt.experience.bean.TouchDataModel;
 import ccnt.experience.bean.TouchDataModel.PointData;
 
-import ccnt.experience.bean.DeviceInfo;
-import ccnt.experience.bean.TouchDataModel;
-
 import ccnt.experience.var.DataBaseInfo;
 
 public class TouchDataService {
@@ -71,6 +68,7 @@ public class TouchDataService {
 				resBuffer.append(pointData.calendar);
 				resBuffer.append(pointData.x);
 				resBuffer.append(pointData.y);
+				resBuffer.append(pointData.velocity);
 				resBuffer.append(pointData.xVelocity);
 				resBuffer.append(pointData.yVelocity);
 				resBuffer.append(pointData.pressure);
@@ -89,7 +87,7 @@ public class TouchDataService {
 	public int saveTouchData(TouchDataModel touchDataModel)
 			throws SQLException, ClassNotFoundException {
 		getConnection();
-		// touchDataModel.getTrace_detail().toString() ÔÝÊ±ÒÔ"ahha"´úÌæ
+
 		String trace_detail = pointDataToString(touchDataModel
 				.getTrace_detail());
 		String insertTouch = "insert into " + DataBaseInfo.TOUCH_DATA_TABLE
