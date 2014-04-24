@@ -88,7 +88,7 @@ public class TouchDataModel {
 	/**
 	 * 每个像素点的位置、速度、压力等信息
 	 */
-	public class PointData {
+	public static class PointData {
 		public Calendar calendar;
 		public float x;
 		public float y;

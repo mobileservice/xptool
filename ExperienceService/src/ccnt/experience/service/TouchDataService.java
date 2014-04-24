@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -20,6 +20,8 @@ import ccnt.experience.var.DataBaseInfo;
 
 public class TouchDataService {
 	private Connection cnnConnection = null;
+	private static Logger log = Logger.getLogger(TouchDataService.class
+			.getName());
 
 	// public static void main(String[] args) throws SQLException,
 	// ClassNotFoundException {
@@ -85,7 +87,7 @@ public class TouchDataService {
 	public int saveTouchData(TouchDataModel touchDataModel)
 			throws SQLException, ClassNotFoundException {
 		getConnection();
-
+		log.info(touchDataModel.toString());
 		String trace_detail = pointDataToString(touchDataModel
 				.getTrace_detail());
 		String insertTouch = "insert into " + DataBaseInfo.TOUCH_DATA_TABLE
@@ -102,12 +104,35 @@ public class TouchDataService {
 		return ret;
 	}
 
+	/**
+	 * 单个
+	 * 
+	 * @param touchDataModel
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public int saveJsonTouchData(String touchDataModel)
+			throws JsonParseException, JsonMappingException, IOException,
+			SQLException, ClassNotFoundException {
+		System.out.println("input:  " + touchDataModel);
+		int ret = 0;
+		ObjectMapper mapper = new ObjectMapper();
+		TouchDataModel tDataModel = mapper.readValue(touchDataModel,
+				TouchDataModel.class);
+		ret = saveTouchData(tDataModel);
+		return 0;
+	}
+
 	/*
 	 * 存储一系列的动作到动作信息表
 	 * 
 	 * @para:动作链表
 	 */
-	public int saveListTouchData(List<TouchDataModel> touchDataModelList) {
+	public int saveListTouchData(ArrayList<TouchDataModel> touchDataModelList) {
 		int ret = 0;
 		try {
 			ret = 1;
@@ -131,10 +156,11 @@ public class TouchDataService {
 	 * 
 	 * @para:一序列动作的JSON格式的String
 	 */
-	public int saveJsonTouchData(String touchDatalList)
+	public int saveJsonListTouchData(String touchDatalList)
 			throws JsonParseException, JsonMappingException, IOException {
+		log.info(touchDatalList);
 		ObjectMapper mapper = new ObjectMapper();
-		List<TouchDataModel> touchDataModelList = (List<TouchDataModel>) mapper
+		ArrayList<TouchDataModel> touchDataModelList = (ArrayList<TouchDataModel>) mapper
 				.readValue(
 						touchDatalList,
 						mapper.getTypeFactory().constructParametricType(
