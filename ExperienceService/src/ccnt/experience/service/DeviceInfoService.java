@@ -34,7 +34,7 @@ public class DeviceInfoService {
 	// }
 
 	/*
-	 * 获取连接
+	 * 获取数据库连接
 	 */
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName(DataBaseInfo.JDBC_DRIVER);

@@ -97,7 +97,8 @@ public class TouchDataService {
 				+ touchDataModel.getId() + ",'" + trace_detail + "','"
 				+ touchDataModel.getCurrent_app() + "','"
 				+ touchDataModel.getCurrent_activity() + "',"
-				+ touchDataModel.getDevice_id() + ")";
+				+ touchDataModel.getDevice_id() + ",'"
+				+ touchDataModel.getCurrent_package() + "')";
 		Statement statement = cnnConnection.createStatement();
 		int ret = statement.executeUpdate(insertTouch);
 		System.out.println(insertTouch);

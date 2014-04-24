@@ -18,13 +18,18 @@ public class TouchDataModel {
 	public static String CURRENTAPP = "current_app";
 	// 当前activity
 	public static String CURRENTACTIVITY = "current_activity";
+	// 当前package
+	public static String CURRENTPACKAGE = "current_package";
 
 	private int id;
+	private String device_id;
 	private String current_app;
 	private String current_activity;
+	private String current_package;
+	// 多指、多点
 	private ArrayList<ArrayList<PointData>> trace_detail;
-	private int device_id;
-	public void TouchDataModel() {
+
+	public TouchDataModel() {
 		trace_detail = new ArrayList<ArrayList<PointData>>();
 	}
 
@@ -34,6 +39,14 @@ public class TouchDataModel {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getDevice_id() {
+		return device_id;
+	}
+
+	public void setDevice_id(String device_id) {
+		this.device_id = device_id;
 	}
 
 	public String getCurrent_app() {
@@ -52,20 +65,24 @@ public class TouchDataModel {
 		this.current_activity = current_activity;
 	}
 
+	public String getCurrent_package() {
+		return current_package;
+	}
+
+	public void setCurrent_package(String current_package) {
+		this.current_package = current_package;
+	}
+
 	public ArrayList<ArrayList<PointData>> getTrace_detail() {
 		return trace_detail;
 	}
 
-	private void setTrace_detail(ArrayList<ArrayList<PointData>> trace_detail) {
+	public void setTrace_detail(ArrayList<ArrayList<PointData>> trace_detail) {
 		this.trace_detail = trace_detail;
 	}
 
-	public int getDevice_id() {
-		return device_id;
-	}
-
-	public void setDevice_id(int device_id) {
-		this.device_id = device_id;
+	public void addPointDatas(ArrayList<PointData> pointDatas) {
+		this.trace_detail.add(pointDatas);
 	}
 
 	/**
@@ -79,7 +96,12 @@ public class TouchDataModel {
 		public float xVelocity;
 		public float yVelocity;
 		public float pressure;
+		// 预测坐标值
 		public float extimateX;
 		public float extimateY;
+
+		public PointData() {
+			this.calendar = Calendar.getInstance();
+		}
 	}
 }
