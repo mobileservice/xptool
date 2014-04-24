@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -44,17 +43,17 @@ public class DeviceInfoService {
 	}
 
 	/*
-
+	 * 
 	 * 测试WebService连通性
 	 */
 	public String testConnection() {
 		return "Hello,word!";
 	}
+
 	/*
 	 * 将设备信息存入设备表
 	 * 
-	 * @para:设备信息
-	 * 将设备信息存入设备表
+	 * @para:设备信息 将设备信息存入设备表
 	 */
 	public String saveDeviceInfo(DeviceInfo deviceInfo) throws SQLException,
 			ClassNotFoundException {
@@ -73,22 +72,20 @@ public class DeviceInfoService {
 		return insertDevice;
 	}
 
-
 	/*
 	 * 将设备信息存入设备表
 	 * 
 	 * @para:参数为设备信息的JSON格式的字符串
 	 */
 
-	// public String saveDeviceInfo(String deviceInfo) throws
-	// JsonParseException,
-	// JsonMappingException, IOException, SQLException,
-	// ClassNotFoundException {
-	//
-	// ObjectMapper mapper = new ObjectMapper();
-	// mapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
-	// DeviceInfo deviceInfoData = mapper.readValue(deviceInfo,
-	// DeviceInfo.class);
-	// return saveDeviceInfo(deviceInfoData);
-	// }
+	public String saveDeviceInfoJson(String deviceInfo)
+			throws JsonParseException, JsonMappingException, IOException,
+			SQLException, ClassNotFoundException {
+
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
+		DeviceInfo deviceInfoData = mapper.readValue(deviceInfo,
+				DeviceInfo.class);
+		return saveDeviceInfo(deviceInfoData);
+	}
 }

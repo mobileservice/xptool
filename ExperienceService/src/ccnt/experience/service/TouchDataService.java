@@ -1,6 +1,5 @@
 package ccnt.experience.service;
 
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ccnt.experience.bean.TouchDataModel;
 import ccnt.experience.bean.TouchDataModel.PointData;
-
 
 import ccnt.experience.bean.DeviceInfo;
 import ccnt.experience.bean.TouchDataModel;
@@ -85,7 +83,7 @@ public class TouchDataService {
 
 	/*
 	 * 将动作信息存入动作信息表
-
+	 * 
 	 * 将设备信息存入设备表
 	 */
 	public String saveTouchData(TouchDataModel touchDataModel)
@@ -112,7 +110,7 @@ public class TouchDataService {
 	 * 
 	 * @para:动作链表
 	 */
-	public String saveTouchData(List<TouchDataModel> touchDataModelList) {
+	public String saveListTouchData(List<TouchDataModel> touchDataModelList) {
 		try {
 			for (TouchDataModel touchDataModel : touchDataModelList) {
 				saveTouchData(touchDataModel);
@@ -134,15 +132,15 @@ public class TouchDataService {
 	 * 
 	 * @para:一序列动作的JSON格式的String
 	 */
-	// public String saveTouchData(String touchDatalList)
-	// throws JsonParseException, JsonMappingException, IOException {
-	// ObjectMapper mapper = new ObjectMapper();
-	// List<TouchDataModel> touchDataModelList = (List<TouchDataModel>) mapper
-	// .readValue(
-	// touchDatalList,
-	// mapper.getTypeFactory().constructParametricType(
-	// ArrayList.class, TouchDataModel.class));
-	// saveTouchData(touchDataModelList);
-	// return touchDatalList;
-	// }
+	public String saveJsonTouchData(String touchDatalList)
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		List<TouchDataModel> touchDataModelList = (List<TouchDataModel>) mapper
+				.readValue(
+						touchDatalList,
+						mapper.getTypeFactory().constructParametricType(
+								ArrayList.class, TouchDataModel.class));
+		saveListTouchData(touchDataModelList);
+		return touchDatalList;
+	}
 }
