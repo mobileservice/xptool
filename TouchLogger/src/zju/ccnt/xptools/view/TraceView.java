@@ -20,15 +20,16 @@ import android.view.MotionEvent.PointerCoords;
 
 import java.util.ArrayList;
 
-import zju.ccnt.xptools.LoggerService;
-import zju.ccnt.xptools.MainActivity;
 import zju.ccnt.xptools.mode.TouchDataModel;
 import zju.ccnt.xptools.mode.TouchDataModel.PointData;
+import zju.ccnt.xptools.util.ConfData;
+import zju.ccnt.xptools.util.FileUtil;
 
 public class TraceView extends View {
 	Context mContext;
     private static final String TAG = "Pointer";
-    
+    /*private static final String FILENAME = "/sdcard/zjw/data.txt";
+    private static final String FILENAME2 = "data2.txt";*/
     //private TouchDataModel touchDataModel = new TouchDataModel();
     public static class PointerState {
     	
@@ -180,6 +181,14 @@ public class TraceView extends View {
         logInputDeviceCapabilities();
     }
     //by zhouqj
+    /**
+     * 
+     * @Title: getDeviceId 
+     * @Description: 获取设备ID
+     * @param @return    设定文件 
+     * @return String    返回类型 
+     * @throws
+     */
     public String getDeviceId(){
     	String deviceId = null;
     	TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
@@ -694,6 +703,7 @@ public class TraceView extends View {
                     Log.i("xptools", "className:" + className);
                     Log.i("xptools", "packageName:"+ packageName);
                     Log.i("xptools", "deviceID:" + deviceId);
+                    FileUtil.writeFile(ConfData.FILE_PATH, touchDataModel);
                 	//~~
                     mCurDown = false;
                     mCurNumPointers = 0;
