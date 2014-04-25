@@ -87,7 +87,7 @@ public class TouchDataService {
 	/*
 	 * 将动作信息存入动作信息表
 	 */
-	public int saveTouchData(TouchDataModel touchDataModel)
+	private int saveTouchData(TouchDataModel touchDataModel)
 			throws SQLException, ClassNotFoundException {
 		getConnection();
 		log.info(touchDataModel.toString());
@@ -127,7 +127,7 @@ public class TouchDataService {
 		TouchDataModel tDataModel = mapper.readValue(touchDataModel,
 				TouchDataModel.class);
 		ret = saveTouchData(tDataModel);
-		return 0;
+		return ret;
 	}
 
 	/*
@@ -135,7 +135,7 @@ public class TouchDataService {
 	 * 
 	 * @para:动作链表
 	 */
-	public int saveListTouchData(ArrayList<TouchDataModel> touchDataModelList) {
+	private int saveListTouchData(ArrayList<TouchDataModel> touchDataModelList) {
 		int ret = 0;
 		try {
 			ret = 1;
