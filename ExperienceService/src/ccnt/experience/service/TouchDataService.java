@@ -1,12 +1,15 @@
 package ccnt.experience.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -60,22 +63,22 @@ public class TouchDataService {
 		// Çå¿ÕresBuffer
 		resBuffer.setLength(0);
 		int fingerCounts = trace_detail.size();
-		resBuffer.append(fingerCounts);
+		resBuffer.append(fingerCounts + " ");
 		for (int i = 0; i < fingerCounts; i++) {
-			resBuffer.append(trace_detail.get(i).size());
+			resBuffer.append(trace_detail.get(i).size() + " ");
 		}
 		for (int i = 0; i < fingerCounts; i++) {
 			for (int j = 0; j < trace_detail.get(i).size(); j++) {
 				PointData pointData = trace_detail.get(i).get(j);
-				resBuffer.append(pointData.calendar);
-				resBuffer.append(pointData.x);
-				resBuffer.append(pointData.y);
-				resBuffer.append(pointData.velocity);
-				resBuffer.append(pointData.xVelocity);
-				resBuffer.append(pointData.yVelocity);
-				resBuffer.append(pointData.pressure);
-				resBuffer.append(pointData.extimateX);
-				resBuffer.append(pointData.extimateY);
+				resBuffer.append(pointData.calendar.getTimeInMillis() + " ");
+				resBuffer.append(pointData.x + " ");
+				resBuffer.append(pointData.y + " ");
+				resBuffer.append(pointData.velocity + " ");
+				resBuffer.append(pointData.xVelocity + " ");
+				resBuffer.append(pointData.yVelocity + " ");
+				resBuffer.append(pointData.pressure + " ");
+				resBuffer.append(pointData.extimateX + " ");
+				resBuffer.append(pointData.extimateY + " ");
 			}
 		}
 		return resBuffer.toString();
