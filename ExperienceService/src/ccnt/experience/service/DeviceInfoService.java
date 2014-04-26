@@ -1,15 +1,19 @@
 package ccnt.experience.service;
 
+
 import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import ccnt.experience.bean.DeviceInfo;
 import ccnt.experience.var.DataBaseInfo;
@@ -34,6 +38,7 @@ public class DeviceInfoService {
 	// }
 
 	/*
+
 	 * 获取数据库连接
 	 */
 	private void getConnection() throws ClassNotFoundException, SQLException {

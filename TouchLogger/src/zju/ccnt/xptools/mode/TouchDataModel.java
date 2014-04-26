@@ -6,6 +6,11 @@
  *******************************************************************************/
 package zju.ccnt.xptools.mode;
 
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -15,7 +20,9 @@ import java.util.Calendar;
  * @author zhouqj
  * @date date 2014-4-16 上午10:52:39 
  */
-public class TouchDataModel {
+
+public class TouchDataModel implements Serializable{
+
 	public static String TABLE = "touch_data";
 	public static String ID = "id";
 	public static String DEVICE_ID="device_id";
@@ -87,7 +94,7 @@ public class TouchDataModel {
 	/**
 	 * 每个像素点的位置、速度、压力等信息
 	 */
-	public class PointData{
+	public class PointData implements Serializable{
 		public Calendar calendar;
 		public float x;
 		public float y;

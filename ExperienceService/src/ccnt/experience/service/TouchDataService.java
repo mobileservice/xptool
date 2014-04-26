@@ -23,8 +23,10 @@ import ccnt.experience.var.DataBaseInfo;
 
 public class TouchDataService {
 	private Connection cnnConnection = null;
+
 	private static Logger log = Logger.getLogger(TouchDataService.class
 			.getName());
+
 
 	// public static void main(String[] args) throws SQLException,
 	// ClassNotFoundException {
@@ -37,6 +39,7 @@ public class TouchDataService {
 	// }
 
 	/*
+
 	 * 获取数据库连接
 	 */
 	private void getConnection() throws ClassNotFoundException, SQLException {

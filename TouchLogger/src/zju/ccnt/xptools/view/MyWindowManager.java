@@ -44,54 +44,55 @@ public class MyWindowManager {
 	}
 
 	private final InputHandler mPointerLocationInputHandler = new BaseInputHandler() {
-		@Override
-		public void handleMotion(MotionEvent event,
-				InputQueue.FinishedCallback finishedCallback) {
-			boolean handled = false;
-			Log.d(TAG, "event " + event.getX() + " " + event.getY());
-			try {
-				if ((event.getSource() & InputDevice.SOURCE_CLASS_POINTER) != 0) {
-					synchronized (mLock) {
-						if (mPointerLocationView != null) {
-							mPointerLocationView.addPointerEvent(event);
-							handled = true;
-						}
-					}
-				}
-			} finally {
-				finishedCallback.finished(handled);
-			}
-		}
-	};
 
-	private void setParams() {
-		// WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-		// WindowManager.LayoutParams.MATCH_PARENT,
-		// WindowManager.LayoutParams.MATCH_PARENT);
-		// lp.type = WindowManager.LayoutParams.TYPE_SECURE_SYSTEM_OVERLAY;
-		// lp.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN
-		// | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-		// | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-		// | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-		// lp.format = PixelFormat.TRANSLUCENT;
-		// lp.setTitle("PointerLocation");
-		// WindowManager wm = (WindowManager)
-		// mContext.getSystemService(Context.WINDOW_SERVICE);
-		// wm.addView(addView, lp);
-
-		// added by zjw:ok
-		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-				WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-						| WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-						| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-				PixelFormat.TRANSLUCENT);
-		WindowManager wm = (WindowManager) mContext
-				.getSystemService(Context.WINDOW_SERVICE);
-		wm.addView(addView, lp);
+        @Override
+        public void handleMotion(MotionEvent event, InputQueue.FinishedCallback finishedCallback) {
+            boolean handled = false;
+            Log.d(TAG, "event "+event.getX()+" "+event.getY());
+            try {
+                if ((event.getSource() & InputDevice.SOURCE_CLASS_POINTER) != 0) {
+                    synchronized (mLock) {
+                        if (mPointerLocationView != null) {
+                            mPointerLocationView.addPointerEvent(event);
+                            handled = true;
+                        }
+                    }
+                }
+            } finally {
+                finishedCallback.finished(handled);
+            }
+        }
+    };
+	
+	private void setParams()
+	{
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(  
+                WindowManager.LayoutParams.MATCH_PARENT,  
+                WindowManager.LayoutParams.MATCH_PARENT);  
+        lp.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;  
+        lp.flags = WindowManager.LayoutParams.FLAG_FULLSCREEN  
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE  
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;  
+        lp.format = PixelFormat.TRANSLUCENT;  
+        lp.setTitle("PointerLocation");  
+        WindowManager wm = (WindowManager)  
+                mContext.getSystemService(Context.WINDOW_SERVICE);  
+        wm.addView(addView, lp);  
 		
+		//added by zjw:ok
+//		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+//				WindowManager.LayoutParams.MATCH_PARENT,
+//				WindowManager.LayoutParams.WRAP_CONTENT,
+//				WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+//				WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+//						| WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+//						| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+//				PixelFormat.TRANSLUCENT);
+//		WindowManager wm = (WindowManager) mContext
+//				.getSystemService(Context.WINDOW_SERVICE);
+//		wm.addView(addView, lp);
+
         if (mPointerLocationInputChannel == null) {  
             try {  
                 mPointerLocationInputChannel =  
