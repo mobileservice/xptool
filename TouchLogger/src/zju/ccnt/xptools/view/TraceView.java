@@ -710,9 +710,11 @@ public class TraceView extends View {
 		                    Log.i("xptools", "deviceID:" + deviceId);
 		                    FileUtil.writeFile(ConfData.FILE_PATH, touchDataModel);
 						}
+
 					};
                 	
                 	runnable.run();
+
                 	//~~
                     mCurDown = false;
                     mCurNumPointers = 0;

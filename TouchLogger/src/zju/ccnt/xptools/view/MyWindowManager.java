@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 public class MyWindowManager {
-	private String TAG="TouchLogger";
+	private String TAG = "TouchLogger";
 	final Object mLock = new Object();
 	private Context mContext=null;
 	private IWindowManager mWindowManager=null;
@@ -27,11 +27,11 @@ public class MyWindowManager {
 	TraceView mPointerLocationView = null;
 	private View addView=null;
 	Handler mHandler;
-	InputChannel mPointerLocationInputChannel=null;
-	
-	public MyWindowManager(Context context)
-	{
+	InputChannel mPointerLocationInputChannel = null;
+
+	public MyWindowManager(Context context) {
 		Log.d(TAG, "strucurer 1");
+
 		mContext=context;
 		mWindowManager=IWindowManager.Stub
 	               .asInterface(ServiceManager.getService("window"));
@@ -42,8 +42,9 @@ public class MyWindowManager {
 		setParams();
 		Log.d(TAG, "strucurer 3");
 	}
-	
+
 	private final InputHandler mPointerLocationInputHandler = new BaseInputHandler() {
+
         @Override
         public void handleMotion(MotionEvent event, InputQueue.FinishedCallback finishedCallback) {
             boolean handled = false;
@@ -91,7 +92,7 @@ public class MyWindowManager {
 //		WindowManager wm = (WindowManager) mContext
 //				.getSystemService(Context.WINDOW_SERVICE);
 //		wm.addView(addView, lp);
-		
+
         if (mPointerLocationInputChannel == null) {  
             try {  
                 mPointerLocationInputChannel =  
@@ -105,10 +106,7 @@ public class MyWindowManager {
             }  
         }  
     }  
-	
-	
-    
-    
+  
     public void destroy()
     {
     	//TODO do nothing now

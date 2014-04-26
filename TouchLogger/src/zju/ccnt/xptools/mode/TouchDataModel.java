@@ -6,9 +6,11 @@
  *******************************************************************************/
 package zju.ccnt.xptools.mode;
 
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -18,7 +20,9 @@ import java.util.Calendar;
  * @author zhouqj
  * @date date 2014-4-16 ионГ10:52:39 
  */
+
 public class TouchDataModel implements Serializable{
+
 	public static String TABLE = "touch_data";
 	public static String ID = "id";
 	public static String DEVICE_ID="device_id";
