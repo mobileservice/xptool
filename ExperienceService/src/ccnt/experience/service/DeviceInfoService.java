@@ -1,9 +1,19 @@
 package ccnt.experience.service;
 
+
+import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser.Feature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import ccnt.experience.bean.DeviceInfo;
 import ccnt.experience.var.DataBaseInfo;
@@ -14,7 +24,6 @@ public class DeviceInfoService {
 	// public static void main(String[] args) throws SQLException,
 	// ClassNotFoundException {
 	// DeviceInfo deviceInfo = new DeviceInfo();
-	//
 	// deviceInfo.setId(1);
 	// deviceInfo.setxSize(2);
 	// deviceInfo.setySIze(3);
@@ -29,7 +38,8 @@ public class DeviceInfoService {
 	// }
 
 	/*
-	 * 获取连接
+
+	 * 获取数据库连接
 	 */
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName(DataBaseInfo.JDBC_DRIVER);
@@ -38,9 +48,22 @@ public class DeviceInfoService {
 	}
 
 	/*
-	 * 将设备信息存入设备表
+	 * 
+	 * 测试WebService连通性
 	 */
-	public String saveDeviceInfo(DeviceInfo deviceInfo) throws SQLException,
+	public String testConnection() {
+		return "Hello,word!";
+	}
+
+	/*
+	 * 将设备信息存入设备表
+	 * 
+	 * @para:设备信息 将设备信息存入设备表
+	 * 
+	 * @return:(1) the row count for SQL Data Manipulation Language (DML)
+	 * statements (2) 0 for SQL statements that return nothing
+	 */
+	public int saveDeviceInfo(DeviceInfo deviceInfo) throws SQLException,
 			ClassNotFoundException {
 		getConnection();
 		String insertDevice = "insert into " + DataBaseInfo.DEVICE_INFO_TABLE
@@ -52,8 +75,25 @@ public class DeviceInfoService {
 				+ deviceInfo.getModel() + "','" + deviceInfo.getSys_version()
 				+ "'," + deviceInfo.getOut_storage() + ")";
 		Statement statement = cnnConnection.createStatement();
-		statement.executeUpdate(insertDevice);
+		int ret = statement.executeUpdate(insertDevice);
 		cnnConnection.close();
-		return insertDevice;
+		return ret;
+	}
+
+	/*
+	 * 将设备信息存入设备表
+	 * 
+	 * @para:参数为设备信息的JSON格式的字符串
+	 */
+
+	public int saveDeviceInfoJson(String deviceInfo) throws JsonParseException,
+			JsonMappingException, IOException, SQLException,
+			ClassNotFoundException {
+
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
+		DeviceInfo deviceInfoData = mapper.readValue(deviceInfo,
+				DeviceInfo.class);
+		return saveDeviceInfo(deviceInfoData);
 	}
 }
