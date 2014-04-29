@@ -116,22 +116,6 @@ public class FileUtil {
 	 * @throws
 	 */
 	public static List<TouchDataModel> readFile(String fileName) {
-		/*StringBuffer sb = new StringBuffer();
-//		File file = new File(SDPATH + "//" + fileName);
-		File file = new File(fileName);
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			int c;
-			while ((c = fis.read()) != -1) {
-				sb.append((char) c);
-			}
-			fis.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return sb.toString();*/
 		List<TouchDataModel> list = new ArrayList<TouchDataModel>();
 		try {
 			File file = new File(fileName);
