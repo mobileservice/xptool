@@ -19,7 +19,7 @@ public class DeviceInfo implements Serializable {
 	public static String SYS_VERSION = "sys_version";// œµÕ≥∞Ê±æ
 	public static String OUT_STORAGE = "out_storage";// ”≤≈Ã
 
-	private int id;
+	private String id;
 	private int xSize;
 	private int ySize;
 	private long storage;
@@ -29,11 +29,11 @@ public class DeviceInfo implements Serializable {
 	private String sys_Version;
 	private long out_Storage;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
