@@ -1,4 +1,4 @@
-package zju.ccnt.xptools.syn;
+package zju.ccnt.xptools.sync;
 
 import java.util.List;
 

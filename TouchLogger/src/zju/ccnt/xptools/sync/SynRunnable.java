@@ -1,4 +1,4 @@
-package zju.ccnt.xptools.syn;
+package zju.ccnt.xptools.sync;
 
 public abstract class SynRunnable implements Runnable {
 	protected Class model;
