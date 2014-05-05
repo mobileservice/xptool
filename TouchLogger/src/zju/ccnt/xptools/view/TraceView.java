@@ -1,6 +1,5 @@
 package zju.ccnt.xptools.view;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
@@ -660,51 +659,61 @@ public class TraceView extends View {
                 if (action == MotionEvent.ACTION_UP
                         || action == MotionEvent.ACTION_CANCEL) {
                 	//by zhouqj
-                	TouchDataModel touchDataModel = new TouchDataModel();
-                	for (int p=0; p<NP; p++) {
-                        final PointerState ps1 = mPointers.get(p);
-                        ArrayList<PointData> pointDatas = new ArrayList<TouchDataModel.PointData>();
-                        for (int i = 0; i < ps1.mTraceCount; i++) {
-							PointData pd = new TouchDataModel().new PointData();
-							pd.calendar.setTimeInMillis(ps1.mTime[i]);
-							pd.x = ps1.mTraceX[i];
-							pd.y = ps1.mTraceY[i];
-							pd.xVelocity = ps1.mVelocityX[i];
-							pd.yVelocity = ps1.mVelocityY[i];
-							pd.pressure = ps1.mPressure[i];							
-							if (i != (ps1.mTraceCount -1)) {
-								pd.extimateX = Integer.MAX_VALUE;
-								pd.extimateY = Integer.MAX_VALUE;
-							}else {
-								//预测坐标值
-								pd.extimateX = ps1.mEstimator.estimateX(ESTIMATE_INTERVAL);
-								pd.extimateY = ps1.mEstimator.estimateY(ESTIMATE_INTERVAL);
-							}
-							pointDatas.add(pd);
-							Log.i("xptools", "x:" + pd.x);
-							Log.i("xptools", "y:" + pd.y);
-							Log.i("xptools", "xVelocity:" + pd.xVelocity);
-							Log.i("xptools", "yVelocity:" + pd.yVelocity);
-							Log.i("xptools", "pressure:" + pd.pressure);
-							Log.i("xptools", "extimateX:" + pd.extimateX);
-							Log.i("xptools", "extimateY:" + pd.extimateY);							
+                	final int fNP = NP;
+                	Runnable runnable = new Runnable() {
+						
+						@Override
+						public void run() {
+							TouchDataModel touchDataModel = new TouchDataModel();
+		                	for (int p=0; p<fNP; p++) {
+		                        final PointerState ps1 = mPointers.get(p);
+		                        ArrayList<PointData> pointDatas = new ArrayList<TouchDataModel.PointData>();
+		                        for (int i = 0; i < ps1.mTraceCount; i++) {
+									PointData pd = new TouchDataModel().new PointData();
+									pd.calendar.setTimeInMillis(ps1.mTime[i]);
+									pd.x = ps1.mTraceX[i];
+									pd.y = ps1.mTraceY[i];
+									pd.xVelocity = ps1.mVelocityX[i];
+									pd.yVelocity = ps1.mVelocityY[i];
+									pd.pressure = ps1.mPressure[i];							
+									if (i != (ps1.mTraceCount -1)) {
+										pd.extimateX = Integer.MAX_VALUE;
+										pd.extimateY = Integer.MAX_VALUE;
+									}else {
+										//预测坐标值
+										pd.extimateX = ps1.mEstimator.estimateX(ESTIMATE_INTERVAL);
+										pd.extimateY = ps1.mEstimator.estimateY(ESTIMATE_INTERVAL);
+									}
+									pointDatas.add(pd);
+									Log.i("xptools", "x:" + pd.x);
+									Log.i("xptools", "y:" + pd.y);
+									Log.i("xptools", "xVelocity:" + pd.xVelocity);
+									Log.i("xptools", "yVelocity:" + pd.yVelocity);
+									Log.i("xptools", "pressure:" + pd.pressure);
+									Log.i("xptools", "extimateX:" + pd.extimateX);
+									Log.i("xptools", "extimateY:" + pd.extimateY);							
+								}
+		                        Log.i("xptools", "TraceCount:" + ps1.mTraceCount);
+		                        touchDataModel.addPointDatas(pointDatas);
+		                    }                	
+		                	ActivityManager manager = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
+		                	RunningTaskInfo info = manager.getRunningTasks(1).get(0);
+		                	String className = info.topActivity.getClassName();
+		                	String packageName = info.topActivity.getPackageName();
+		                    touchDataModel.setCurrent_activity(className);
+		                    touchDataModel.setCurrent_package(packageName);
+		                    String deviceId = getDeviceId();
+		                    touchDataModel.setDevice_id(deviceId);
+		                    Log.i("xptools", "className:" + className);
+		                    Log.i("xptools", "packageName:"+ packageName);
+		                    Log.i("xptools", "deviceID:" + deviceId);
+		                    FileUtil.writeFile(ConfData.FILE_PATH, touchDataModel);
 						}
-                        Log.i("xptools", "TraceCount:" + ps1.mTraceCount);
-                        touchDataModel.addPointDatas(pointDatas);
-                    }                	
-                	ActivityManager manager = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
-                	RunningTaskInfo info = manager.getRunningTasks(1).get(0);
-                	String className = info.topActivity.getClassName();
-                	String packageName = info.topActivity.getPackageName();
-                    touchDataModel.setCurrent_activity(className);
-                    touchDataModel.setCurrent_package(packageName);
-                    String deviceId = getDeviceId();
-                    touchDataModel.setDevice_id(deviceId);
-                    Log.i("xptools", "className:" + className);
-                    Log.i("xptools", "packageName:"+ packageName);
-                    Log.i("xptools", "deviceID:" + deviceId);
 
-                    FileUtil.writeFile(ConfData.FILE_PATH, touchDataModel);
+					};
+                	
+                	runnable.run();
+
                 	//~~
                     mCurDown = false;
                     mCurNumPointers = 0;
