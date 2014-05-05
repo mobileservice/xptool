@@ -2,6 +2,7 @@ package zju.ccnt.xptools.util;
 
 import java.util.List;
 
+import zju.ccnt.xptools.mode.DeviceInfo;
 import zju.ccnt.xptools.mode.TouchDataModel;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,6 +22,15 @@ public class JsonUtil {
 	}
 	
 	public static String dataToJson(TouchDataModel data){
+		try {
+			mapper = new ObjectMapper();
+			json = mapper.writeValueAsString(data);
+			return json;
+		} catch (JsonProcessingException e) {
+			return null;
+		}
+	}
+	public static String deviceInfoToJson(DeviceInfo data){
 		try {
 			mapper = new ObjectMapper();
 			json = mapper.writeValueAsString(data);
