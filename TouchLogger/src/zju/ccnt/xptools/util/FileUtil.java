@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,24 +25,7 @@ import zju.ccnt.xptools.mode.TouchDataModel;
  * 
  */
 public class FileUtil {
-	/*private Context context;
-	// SD卡是否存在
-	private boolean hasSD = false;
-	// SD卡的路径
-	private String SDPATH;
-	// 当前程序包的路径
-	private String FILESPATH;
-
-	public FileUtil(Context context) {
-		this.context = context;
-		this.hasSD = Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED);
-		this.SDPATH = Environment.getExternalStorageDirectory().getPath();
-		this.FILESPATH = this.context.getFilesDir().getPath();
-	}
-*/
 	/**
-	 * 
 	 * 创建文件
 	 * 
 	 * @param @param fileName
@@ -49,7 +34,7 @@ public class FileUtil {
 	 */
 	public static File createFile(String fileName) throws IOException {
 //		File file = new File(SDPATH + "//" + fileName);
-		File file = new File(fileName);
+		File file = new File(ConfData.FILE_PATH+fileName);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
@@ -66,7 +51,7 @@ public class FileUtil {
 	 */
 	public static void clearFile(String fileName) {
 //		File file = new File(SDPATH + "//" + fileName);
-		File file = new File(fileName);
+		File file = new File(ConfData.FILE_PATH+fileName);
 		if (!file.exists() || file.isDirectory()) {
 			return;
 		}
@@ -95,7 +80,7 @@ public class FileUtil {
 			if (file.length() < 1) {
 				oos = new ObjectOutputStream(fos);
 			}else {
-				oos = new MyObjectOutputStream(fos);
+				oos = new FileBasedObjectOutputStream(fos);
 			}
 			oos.writeObject(data);
 			oos.close();
@@ -116,22 +101,6 @@ public class FileUtil {
 	 * @throws
 	 */
 	public static List<TouchDataModel> readFile(String fileName) {
-		/*StringBuffer sb = new StringBuffer();
-//		File file = new File(SDPATH + "//" + fileName);
-		File file = new File(fileName);
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			int c;
-			while ((c = fis.read()) != -1) {
-				sb.append((char) c);
-			}
-			fis.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return sb.toString();*/
 		List<TouchDataModel> list = new ArrayList<TouchDataModel>();
 		try {
 			File file = new File(fileName);
@@ -154,5 +123,45 @@ public class FileUtil {
 		} 
 		return list;
 	}
+	
+	/**
+	 * Read TouchDataModel list from the InputStream
+	 * @param inputStream
+	 * @return
+	 */
+	public static List<TouchDataModel> readTouchDataModelsFromStream(InputStream inputStream) {
+		List<TouchDataModel> list = new ArrayList<TouchDataModel>();
+		try {
+			ObjectInputStream ois = new ObjectInputStream(inputStream);
+			Object object = null;
+			while (inputStream.available() > 0) {
+				object = ois.readObject();
+				if (object instanceof TouchDataModel) {
+					list.add((TouchDataModel)object);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public static void writeTouchDataModelsToStream(OutputStream outStream, TouchDataModel data) {	
+		ObjectOutputStream oos = null;
+		try {
+			oos = new ObjectOutputStream(outStream);
+			oos.writeObject(data);
+//			oos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+		
+	}
+	
 
 }

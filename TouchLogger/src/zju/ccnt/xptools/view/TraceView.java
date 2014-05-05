@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import zju.ccnt.xptools.mode.TouchDataModel;
 import zju.ccnt.xptools.mode.TouchDataModel.PointData;
+import zju.ccnt.xptools.sync.SyncManager;
 import zju.ccnt.xptools.util.ConfData;
 import zju.ccnt.xptools.util.FileUtil;
 
@@ -139,6 +140,8 @@ public class TraceView extends View {
     
     private boolean mPrintCoords = true;
     
+    private SyncManager.SyncComponent syncComponent;
+    
     public TraceView(Context c) {
         super(c);
         mContext=c;
@@ -178,6 +181,8 @@ public class TraceView extends View {
         mVelocity = VelocityTracker.obtain();
         
         logInputDeviceCapabilities();
+        
+        syncComponent=SyncManager.getInstance().find(TouchDataModel.class.getName());
     }
     //by zhouqj
     /**
@@ -707,7 +712,9 @@ public class TraceView extends View {
 		                    Log.i("xptools", "className:" + className);
 		                    Log.i("xptools", "packageName:"+ packageName);
 		                    Log.i("xptools", "deviceID:" + deviceId);
-		                    FileUtil.writeFile(ConfData.FILE_PATH, touchDataModel);
+		                    //FileUtil.writeFile(ConfData.FILE_PATH, touchDataModel);
+//		                    FileUtil.writeTouchDataModelsToStream(syncComponent.outputStream, touchDataModel);
+		                    syncComponent.writeModel(touchDataModel);
 						}
 
 					};
