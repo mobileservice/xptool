@@ -1,9 +1,20 @@
 package zju.ccnt.xptools.sync;
 
-public abstract class SynRunnable implements Runnable {
+import java.io.InputStream;
+
+public abstract class SyncRunnable implements Runnable {
 	protected Class model;
 	
+	protected InputStream inputStream;
 	
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
+	}
+
 	/*
 	 * Get the Class presentation of the model whose
 	 * instance is to be stored.
@@ -20,7 +31,7 @@ public abstract class SynRunnable implements Runnable {
 		this.model=model;
 	}
 
-	public SynRunnable(Class model) {
+	public SyncRunnable(Class model) {
 		setModelClass(model);
 	}
 

@@ -5,9 +5,9 @@ import java.util.List;
 import zju.ccnt.xptools.mode.TouchDataModel;
 import zju.ccnt.xptools.util.FileUtil;
 
-public class TouchDataSynRunnable extends SynRunnable{
+public class TouchDataSyncRunnable extends SyncRunnable{
 
-	public TouchDataSynRunnable(Class model) {
+	public TouchDataSyncRunnable(Class model) {
 		super(model);
 	}
 
