@@ -1,6 +1,5 @@
-package zju.ccnt.xptools.syn;
+package zju.ccnt.xptools.sync;
 
-import zju.ccnt.xptools.view.MyWindowManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -10,7 +9,7 @@ import android.os.IBinder;
  * @author zhongjinwen
  *
  */
-public class SynService extends Service {
+public class SyncService extends Service {
 	
 	@Override
 	public void onCreate()
@@ -28,7 +27,4 @@ public class SynService extends Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-
 }
