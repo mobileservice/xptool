@@ -2,17 +2,22 @@ package zju.ccnt.xptools.sync;
 
 import java.io.InputStream;
 
+import zju.ccnt.xptools.sync.SyncManager.SyncComponent;
+
 public abstract class SyncRunnable implements Runnable {
 	protected Class model;
 	
-	protected InputStream inputStream;
-	
-	public InputStream getInputStream() {
-		return inputStream;
+	/**
+	 * This only set when register to the SyncManager
+	 */
+	protected SyncComponent syncComponent;
+
+	public SyncComponent getSyncComponent() {
+		return syncComponent;
 	}
 
-	public void setInputStream(InputStream inputStream) {
-		this.inputStream = inputStream;
+	public void setSyncComponent(SyncComponent syncComponent) {
+		this.syncComponent = syncComponent;
 	}
 
 	/*
