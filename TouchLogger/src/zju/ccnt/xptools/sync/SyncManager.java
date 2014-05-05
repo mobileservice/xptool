@@ -13,14 +13,14 @@ import java.util.TimerTask;
  * and the server side. There should be only one instance of the
  * whole application.
  */
-public class syncManager {
-	private List<synccComponent> syncComList;
-	syncManager instance=new syncManager();
+public class SyncManager {
+	private List<SyncComponent> syncComList;
+	SyncManager instance=new SyncManager();
 	Timer timer;
 	TimerTask synccTask;
 
-	private syncManager() {
-		syncComList=new LinkedList<synccComponent>();
+	private SyncManager() {
+		syncComList=new LinkedList<SyncComponent>();
 		synccTask=new TimerTask() {
 			@Override
 			public void run() {
@@ -32,7 +32,7 @@ public class syncManager {
 		
 	}
 	
-	public syncManager getInstance(){
+	public SyncManager getInstance(){
 		return instance;
 	}
 	
@@ -42,8 +42,8 @@ public class syncManager {
 	 * @param syncRunnable.
 	 * @return true when success and false when fail.
 	 */
-	syncchronized public boolean register(syncRunnable syncRunnable){
-		syncComList.add(new synccComponent(syncRunnable));
+	synchronized public boolean register(SyncRunnable syncRunnable){
+		syncComList.add(new SyncComponent(syncRunnable));
 		return true;
 	}
 	
@@ -52,9 +52,9 @@ public class syncManager {
 	 * @param class name of the syncRunnable.
 	 * @return true when success and false when fail.
 	 */
-	syncchronized public boolean unRegister(String className){
-		for(synccComponent sc:syncComList){
-			syncRunnable sr=sc.syncRunnable;
+	synchronized public boolean unRegister(String className){
+		for(SyncComponent sc:syncComList){
+			SyncRunnable sr=sc.syncRunnable;
 			if(sr.getClass().getName().equals(className)){
 				syncComList.remove(sc);
 				sc.cleanResources();
@@ -65,8 +65,8 @@ public class syncManager {
 	}
 	
 	private void dosyncc(){
-		for(synccComponent sc:syncComList){
-			syncRunnable sr=sc.syncRunnable;
+		for(SyncComponent sc:syncComList){
+			SyncRunnable sr=sc.syncRunnable;
 			sr.run();
 		}
 	}
@@ -76,12 +76,12 @@ public class syncManager {
 	 * syncRunnable instance, InputStream, OutputStream, etc.
 	 * @author zhongjinwen
 	 */
-	private static class synccComponent{
-		syncRunnable syncRunnable;
+	private static class SyncComponent{
+		SyncRunnable syncRunnable;
 		InputStream inputStream;
 		OutputStream outputStream;
 		
-		public synccComponent(syncRunnable syncRunnable) {
+		public SyncComponent(SyncRunnable syncRunnable) {
 			this.syncRunnable=syncRunnable;
 			//TODO 新建文件，并取得I/O stream
 		}
