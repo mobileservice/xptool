@@ -13,8 +13,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import zju.ccnt.xptools.mode.DeviceInfo;
 import zju.ccnt.xptools.mode.TouchDataModel;
-
 
 /**
  * 
@@ -33,8 +33,8 @@ public class FileUtil {
 	 * @return File ∑µªÿ¿‡–Õ
 	 */
 	public static File createFile(String fileName) throws IOException {
-//		File file = new File(SDPATH + "//" + fileName);
-		File file = new File(ConfData.FILE_PATH+fileName);
+		// File file = new File(SDPATH + "//" + fileName);
+		File file = new File(ConfData.FILE_PATH + fileName);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
@@ -50,8 +50,8 @@ public class FileUtil {
 	 * @throws
 	 */
 	public static void clearFile(String fileName) {
-//		File file = new File(SDPATH + "//" + fileName);
-		File file = new File(ConfData.FILE_PATH+fileName);
+		// File file = new File(SDPATH + "//" + fileName);
+		File file = new File(ConfData.FILE_PATH + fileName);
 		if (!file.exists() || file.isDirectory()) {
 			return;
 		}
@@ -72,19 +72,19 @@ public class FileUtil {
 	 * @param content
 	 * @return void
 	 */
-	public static void writeFile(String fileName, TouchDataModel data) {	
+	public static void writeFile(String fileName, TouchDataModel data) {
 		try {
-			File file=new File(fileName);
+			File file = new File(fileName);
 			FileOutputStream fos = new FileOutputStream(file, true);
 			ObjectOutputStream oos = null;
 			if (file.length() < 1) {
 				oos = new ObjectOutputStream(fos);
-			}else {
+			} else {
 				oos = new FileBasedObjectOutputStream(fos);
 			}
 			oos.writeObject(data);
 			oos.close();
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -110,7 +110,7 @@ public class FileUtil {
 			while (fis.available() > 0) {
 				object = ois.readObject();
 				if (object instanceof TouchDataModel) {
-					list.add((TouchDataModel)object);
+					list.add((TouchDataModel) object);
 				}
 			}
 			ois.close();
@@ -120,16 +120,18 @@ public class FileUtil {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} 
+		}
 		return list;
 	}
-	
+
 	/**
 	 * Read TouchDataModel list from the InputStream
+	 * 
 	 * @param inputStream
 	 * @return
 	 */
-	public static List<TouchDataModel> readTouchDataModelsFromStream(InputStream inputStream) {
+	public static List<TouchDataModel> readTouchDataModelsFromStream(
+			InputStream inputStream) {
 		List<TouchDataModel> list = new ArrayList<TouchDataModel>();
 		try {
 			ObjectInputStream ois = new ObjectInputStream(inputStream);
@@ -137,7 +139,7 @@ public class FileUtil {
 			while (inputStream.available() > 0) {
 				object = ois.readObject();
 				if (object instanceof TouchDataModel) {
-					list.add((TouchDataModel)object);
+					list.add((TouchDataModel) object);
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -146,22 +148,61 @@ public class FileUtil {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} 
+		}
 		return list;
 	}
-	
-	public static void writeTouchDataModelsToStream(OutputStream outStream, TouchDataModel data) {	
+
+	public static void writeTouchDataModelsToStream(OutputStream outStream,
+			TouchDataModel data) {
 		ObjectOutputStream oos = null;
 		try {
 			oos = new ObjectOutputStream(outStream);
 			oos.writeObject(data);
-//			oos.close();
+			// oos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			
-		
+
 	}
-	
+
+	public static void writeDeviceInfo(String fileName, DeviceInfo data) {
+		try {
+			File file = new File(fileName);
+			FileOutputStream fos = new FileOutputStream(file);
+			ObjectOutputStream oos = null;
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(data);
+			oos.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static DeviceInfo readDeviceInfo(String fileName) {
+		DeviceInfo deviceInfo = new DeviceInfo();
+		try {
+			File file = new File(fileName);
+			FileInputStream fis = new FileInputStream(file);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			Object object = null;
+			while (fis.available() > 0) {
+				object = ois.readObject();
+				if (object instanceof DeviceInfo) {
+					deviceInfo = (DeviceInfo) object;
+				}
+			}
+			ois.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return deviceInfo;
+	}
 
 }

@@ -5,4 +5,5 @@ public class ConfData {
 	//本地数据存储路径
 	public static final String FILE_PATH = "/sdcard/xptools/";
 	public static final String FILE_PATH_="/sdcard/zjw/data_secondary.txt";
+	public static final String DEVICE_INFO_PATH = "/sdcard/xptools/device_info.txt";
 }
