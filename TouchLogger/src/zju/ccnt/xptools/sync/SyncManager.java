@@ -160,6 +160,8 @@ public class SyncManager {
 		public boolean writeModel(Object model){
 			try {
 				objectOutputStream.writeObject(model);
+				//TODO 为了看效果，每次都刷回。调试后应当删除。
+				objectOutputStream.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -198,6 +200,7 @@ public class SyncManager {
 				try {
 					//close streams
 					inputStream.close();
+//					objectOutputStream.flush();
 					objectOutputStream.close();
 					outputStream.close();
 					

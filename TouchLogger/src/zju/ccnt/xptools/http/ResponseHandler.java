@@ -1,5 +1,7 @@
 package zju.ccnt.xptools.http;
 
+import android.util.Log;
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class ResponseHandler extends AsyncHttpResponseHandler {
@@ -9,17 +11,18 @@ public class ResponseHandler extends AsyncHttpResponseHandler {
 	
 	@Override
 	public void onSuccess(String args){
-		System.out.println("response success: "+args);
+		Log.d("RESPONSE", "success: "+args);
 	}
 	
 	@Override 
 	public void onFailure(Throwable error){
-		System.out.println("response failure");
+		Log.d("RESPONSE", "failure: "+error.getMessage());
+		
 	}
 	
 	@Override
 	public void onFinish(){
 		super.onFinish();
-		System.out.println("response onFinish");
+		Log.d("RESPONSE", "finish");
 	}
 }
