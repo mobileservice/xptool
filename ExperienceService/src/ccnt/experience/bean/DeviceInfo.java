@@ -1,36 +1,36 @@
 package ccnt.experience.bean;
 
 public class DeviceInfo {
-	// 数据库表头部分
-	public static String TABLE = "device_info";// 表名
-	public static String ID = "id";// 设备ID
-	public static String X_SIZE = "xSize";// 分辨率X方向
-	public static String Y_SIZE = "ySize";// 分辨率y方向
-	public static String SIZE = "size";// 分辨率
-	public static String STORAGE = "storage";// 内存
-	public static String CPU_STYLE = "CPU_style";// CPU型号
-	public static String GPU_STYLE = "GPU_style";// GPU型号
-	public static String MODEL = "model";// 型号
-	public static String SYS_VERSION = "sys_version";// 系统版本
-	public static String OUT_STORAGE = "out_storage";// 硬盘
+	public static String TABLE = "device_info";
+	public static String ID = "id";
+	public static String X_SIZE = "xSize";
+	public static String Y_SIZE = "ySize";
+	public static String STORAGE = "storage";
+	// public static String CPU_INFO = "CPU_info";
+	// 以下将CPUInfo分为3个部分存储
+	public static String CPU_NAME = "cpu_name";
+	public static String MAX_CPUFRE = "maxCpuFreq";
+	public static String MIN_CPUFRE = "minCpuFreq";
+	// public static String GPU_INFO = "GPU_info";
+	public static String MODEL = "model";
+	public static String SYS_VERSION = "sys_version";
+	public static String OUT_STORAGE = "out_storage";
 
-	// 数据部分
-	private int id;
+	private String id;
 	private int xSize;
-	private int ySIze;
-	private int size;
-	private int storage;
-	private String CPU_style;
-	private String GPU_style;
+	private int ySize;
+	private long storage;
+	private CpuInfo CPU_info;
+	// private GpuInfo GPU_info;
 	private String model;
-	private String sys_version;
-	private int out_storage;
+	private String sys_Version;
+	private long out_Storage;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -42,45 +42,35 @@ public class DeviceInfo {
 		this.xSize = xSize;
 	}
 
-	public int getySIze() {
-		return ySIze;
+	public int getySize() {
+		return ySize;
 	}
 
-	public void setySIze(int ySIze) {
-		this.ySIze = ySIze;
+	public void setySize(int ySize) {
+		this.ySize = ySize;
 	}
 
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-	public int getStorage() {
+	public long getStorage() {
 		return storage;
 	}
 
-	public void setStorage(int storage) {
+	public void setStorage(long storage) {
 		this.storage = storage;
 	}
 
-	public String getCPU_style() {
-		return CPU_style;
+	public CpuInfo getCPU_info() {
+		return CPU_info;
 	}
 
-	public void setCPU_style(String cPU_style) {
-		CPU_style = cPU_style;
+	public void setCPU_info(CpuInfo cPU_info) {
+		CPU_info = cPU_info;
 	}
 
-	public String getGPU_style() {
-		return GPU_style;
-	}
-
-	public void setGPU_style(String gPU_style) {
-		GPU_style = gPU_style;
-	}
+	/*
+	 * public GpuInfo getGPU_info() { return GPU_info; }
+	 * 
+	 * public void setGPU_info(GpuInfo gPU_info) { GPU_info = gPU_info; }
+	 */
 
 	public String getModel() {
 		return model;
@@ -90,20 +80,80 @@ public class DeviceInfo {
 		this.model = model;
 	}
 
-	public String getSys_version() {
-		return sys_version;
+	public String getSys_Version() {
+		return sys_Version;
 	}
 
-	public void setSys_version(String sys_version) {
-		this.sys_version = sys_version;
+	public void setSys_Version(String sys_Version) {
+		this.sys_Version = sys_Version;
 	}
 
-	public int getOut_storage() {
-		return out_storage;
+	public long getOut_Storage() {
+		return out_Storage;
 	}
 
-	public void setOut_storage(int out_storage) {
-		this.out_storage = out_storage;
+	public void setOut_Storage(long out_Storage) {
+		this.out_Storage = out_Storage;
 	}
+
+	public static class CpuInfo {
+		private String cpuName;
+		private int maxCpuFreq;
+		private int minCpuFreq;
+
+		public CpuInfo() {
+			super();
+		}
+
+		public CpuInfo(String cpuName, int maxCpuFreq, int minCpuFreq) {
+			super();
+			this.cpuName = cpuName;
+			this.maxCpuFreq = maxCpuFreq;
+			this.minCpuFreq = minCpuFreq;
+		}
+
+		public CpuInfo(CpuInfo info) {
+			super();
+			this.cpuName = info.getCpuName();
+			this.maxCpuFreq = info.getMaxCpuFreq();
+			this.minCpuFreq = info.getMinCpuFreq();
+		}
+
+		public String getCpuName() {
+			return cpuName;
+		}
+
+		public void setCpuName(String cpuName) {
+			this.cpuName = cpuName;
+		}
+
+		public int getMaxCpuFreq() {
+			return maxCpuFreq;
+		}
+
+		public void setMaxCpuFreq(int maxCpuFreq) {
+			this.maxCpuFreq = maxCpuFreq;
+		}
+
+		public int getMinCpuFreq() {
+			return minCpuFreq;
+		}
+
+		public void setMinCpuFreq(int minCpuFreq) {
+			this.minCpuFreq = minCpuFreq;
+		}
+
+		@Override
+		public String toString() {
+			return "CpuInfo [cpuName=" + cpuName + ", maxCpuFreq=" + maxCpuFreq
+					+ ", minCpuFreq=" + minCpuFreq + "]";
+		}
+	}
+
+	/*
+	 * public class GpuInfo implements Serializable {
+	 * 
+	 * }
+	 */
 
 }

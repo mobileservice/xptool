@@ -1,15 +1,12 @@
 package ccnt.experience.service;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -27,7 +24,6 @@ public class TouchDataService {
 	private static Logger log = Logger.getLogger(TouchDataService.class
 			.getName());
 
-
 	// public static void main(String[] args) throws SQLException,
 	// ClassNotFoundException {
 	// TouchDataModel touchDataModel = new TouchDataModel();
@@ -39,7 +35,7 @@ public class TouchDataService {
 	// }
 
 	/*
-
+	 * 
 	 * 获取数据库连接
 	 */
 	private void getConnection() throws ClassNotFoundException, SQLException {
@@ -166,6 +162,7 @@ public class TouchDataService {
 			throws JsonParseException, JsonMappingException, IOException {
 		log.info(touchDatalList);
 		ObjectMapper mapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
 		ArrayList<TouchDataModel> touchDataModelList = (ArrayList<TouchDataModel>) mapper
 				.readValue(
 						touchDatalList,

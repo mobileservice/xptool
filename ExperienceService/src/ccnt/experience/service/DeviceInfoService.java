@@ -1,6 +1,5 @@
 package ccnt.experience.service;
 
-
 import java.io.IOException;
 
 import java.sql.Connection;
@@ -8,12 +7,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 import ccnt.experience.bean.DeviceInfo;
 import ccnt.experience.var.DataBaseInfo;
@@ -38,7 +35,7 @@ public class DeviceInfoService {
 	// }
 
 	/*
-
+	 * 
 	 * 获取数据库连接
 	 */
 	private void getConnection() throws ClassNotFoundException, SQLException {
@@ -67,13 +64,15 @@ public class DeviceInfoService {
 			ClassNotFoundException {
 		getConnection();
 		String insertDevice = "insert into " + DataBaseInfo.DEVICE_INFO_TABLE
-				+ " " + DataBaseInfo.DEVICE_TABLE_FORM + " values ("
-				+ deviceInfo.getId() + "," + deviceInfo.getxSize() + ","
-				+ deviceInfo.getySIze() + "," + deviceInfo.getSize() + ","
-				+ deviceInfo.getStorage() + ",'" + deviceInfo.getCPU_style()
-				+ "','" + deviceInfo.getGPU_style() + "','"
-				+ deviceInfo.getModel() + "','" + deviceInfo.getSys_version()
-				+ "'," + deviceInfo.getOut_storage() + ")";
+				+ " " + DataBaseInfo.DEVICE_TABLE_FORM + " values ('"
+				+ deviceInfo.getId() + "'," + deviceInfo.getxSize() + ","
+				+ deviceInfo.getySize() + "," + deviceInfo.getStorage() + ",'"
+				+ deviceInfo.getCPU_info().getCpuName() + "',"
+				+ deviceInfo.getCPU_info().getMaxCpuFreq() + ","
+				+ deviceInfo.getCPU_info().getMinCpuFreq() + ",'"
+				+ deviceInfo.getModel() + "','" + deviceInfo.getSys_Version()
+				+ "'," + deviceInfo.getOut_Storage() + ")";
+		System.out.println(insertDevice);
 		Statement statement = cnnConnection.createStatement();
 		int ret = statement.executeUpdate(insertDevice);
 		cnnConnection.close();
@@ -89,7 +88,7 @@ public class DeviceInfoService {
 	public int saveDeviceInfoJson(String deviceInfo) throws JsonParseException,
 			JsonMappingException, IOException, SQLException,
 			ClassNotFoundException {
-
+		System.out.println(deviceInfo);
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
 		DeviceInfo deviceInfoData = mapper.readValue(deviceInfo,
