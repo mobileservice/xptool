@@ -118,7 +118,7 @@ public class DeviceInfoUtil {
 	 * @throws
 	 */
 	public CpuInfo getCpuInfo() {
-		CpuInfo info = new DeviceInfo().new CpuInfo();
+		CpuInfo info = new DeviceInfo.CpuInfo();
 		info.setCpuName(getCpuName());
 		info.setMaxCpuFreq(getMaxCpuFreq());
 		info.setMinCpuFreq(getMinCpuFreq());

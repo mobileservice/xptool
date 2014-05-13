@@ -59,6 +59,7 @@ public class SyncManager {
 		SyncComponent sc=new SyncComponent(syncRunnable);
 		syncRunnable.setSyncComponent(sc);
 		syncComList.add(sc);
+		Log.d("REG",syncRunnable.getClass().getName());
 		return true;
 	}
 	
@@ -68,15 +69,14 @@ public class SyncManager {
 	 * @return
 	 */
 	synchronized public SyncComponent find(String className){
-		Log.d(TAG, "find");
 		for(SyncComponent sc:syncComList){
 			SyncRunnable sr=sc.syncRunnable;
 			if(sr.getModelClass().getName().equals(className)){
-				Log.d(TAG, "found");
+				Log.d("REG", "found "+className);
 				return sc;
 			}
 		}
-		Log.d(TAG, "not find");
+		Log.d("REG", "not find "+className);
 		return null;
 	}
 	
@@ -98,6 +98,7 @@ public class SyncManager {
 	}
 	
 	private void dosync(){
+		Log.d("COM", "cyncComList length: "+syncComList.size());
 		for(SyncComponent sc:syncComList){
 			SyncRunnable sr=sc.syncRunnable;
 			sr.run();
@@ -150,6 +151,7 @@ public class SyncManager {
 				inputStream=new FileInputStream(ConfData.FILE_PATH+fileNames[inputFileIdx]);
 				outputStream=new FileOutputStream(ConfData.FILE_PATH+fileNames[1-inputFileIdx]);
 				objectOutputStream=new FileBasedObjectOutputStream(outputStream);
+				objectOutputStream.flush();
 		    } catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch(IOException e){
@@ -209,6 +211,7 @@ public class SyncManager {
 					inputStream=new FileInputStream(ConfData.FILE_PATH+fileNames[inputFileIdx]);
 					outputStream=new FileOutputStream(ConfData.FILE_PATH+fileNames[1-inputFileIdx]);
 					objectOutputStream=new FileBasedObjectOutputStream(outputStream);
+					objectOutputStream.flush();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

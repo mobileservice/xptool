@@ -40,13 +40,14 @@ public class FileUtil {
 		}
 		return file;
 	}
-	
-	public static void createDir(String dirName){
+
+	public static void createDir(String dirName) {
 		File destDir = new File(dirName);
 		if (!destDir.exists()) {
 			destDir.mkdirs();
 		}
 	}
+
 	/**
 	 * 
 	 * 清空文件内容

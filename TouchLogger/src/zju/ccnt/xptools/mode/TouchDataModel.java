@@ -94,7 +94,7 @@ public class TouchDataModel implements Serializable{
 	/**
 	 * 每个像素点的位置、速度、压力等信息
 	 */
-	public class PointData implements Serializable{
+	public static class PointData implements Serializable{
 		public Calendar calendar;
 		public float x;
 		public float y;

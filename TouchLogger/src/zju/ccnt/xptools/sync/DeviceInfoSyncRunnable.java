@@ -22,14 +22,14 @@ public class DeviceInfoSyncRunnable extends SyncRunnable {
 	@Override
 	public void run() {
 		List<Object> dataList=syncComponent.readModels();
+		Log.d("SIZE", "datalist size: "+dataList.size());
 		if(dataList.size()==0)
 			return;
-		Log.d("SIZE", "datalist size: "+dataList.size());
 		RequestParams rp=new RequestParams();
 		String s=JsonUtil.dataToJson(dataList.get(0));
 		rp.add("deviceInfo", s);
-		String url=ConfData.HTTP_URL_HEAD+
-				"DeviceInfoService/saveDeviceInfoJson";
+		String url=ConfData.URL_SAVA_DEVICE_INFO;
+		Log.d("DEVICERUN", "run");
 		//Use HTTP POST in case that parameters too long to be put in the request URI
 		HttpUtil.post(url, rp, new DeviceResponseHandler(mContext));
 	}

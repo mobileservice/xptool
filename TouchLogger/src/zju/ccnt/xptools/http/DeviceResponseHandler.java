@@ -1,8 +1,10 @@
 package zju.ccnt.xptools.http;
 
+import zju.ccnt.xptools.TouchDataApplication;
 import zju.ccnt.xptools.mode.DeviceInfo;
 import zju.ccnt.xptools.sync.SyncManager;
-import zju.ccnt.xptools.util.SharedData;
+import zju.ccnt.xptools.util.ConfData;
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -21,9 +23,10 @@ public class DeviceResponseHandler extends AsyncHttpResponseHandler {
 	public void onSuccess(String args){
 		SyncManager syncManager = SyncManager.getInstance();
 		Log.d("DEVICE_RESPONSE", "success: "+args);
-		SharedPreferences check = mContext.getSharedPreferences(SharedData.CHECK_FILE, 0);
+		SharedPreferences check = mContext.getSharedPreferences(ConfData.CHECK_FILE, 0);
 		SharedPreferences.Editor editor = check.edit();
-		editor.putBoolean(SharedData.FIRSTUSE, false);
+		editor.putBoolean(ConfData.FIRSTUSE, false);
+		editor.commit();
 		syncManager.unRegister(DeviceInfo.class.getName());
 	}
 	

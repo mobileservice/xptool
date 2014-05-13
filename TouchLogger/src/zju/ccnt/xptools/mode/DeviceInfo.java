@@ -9,7 +9,7 @@ public class DeviceInfo implements Serializable {
 	public static String Y_SIZE = "ySize";
 	public static String STORAGE = "storage";
 	public static String CPU_INFO = "CPU_info";
-	public static String GPU_INFO = "GPU_info";
+	//public static String GPU_INFO = "GPU_info";
 	public static String MODEL = "model";
 	public static String SYS_VERSION = "sys_version";
 	public static String OUT_STORAGE = "out_storage";
@@ -19,7 +19,7 @@ public class DeviceInfo implements Serializable {
 	private int ySize;
 	private long storage;
 	private CpuInfo CPU_info;
-	private GpuInfo GPU_info;
+	//private GpuInfo GPU_info;
 	private String model;
 	private String sys_Version;
 	private long out_Storage;
@@ -64,13 +64,13 @@ public class DeviceInfo implements Serializable {
 		CPU_info = cPU_info;
 	}
 
-	public GpuInfo getGPU_info() {
+	/*public GpuInfo getGPU_info() {
 		return GPU_info;
 	}
 
 	public void setGPU_info(GpuInfo gPU_info) {
 		GPU_info = gPU_info;
-	}
+	}*/
 
 	public String getModel() {
 		return model;
@@ -96,7 +96,7 @@ public class DeviceInfo implements Serializable {
 		this.out_Storage = out_Storage;
 	}
 
-	public class CpuInfo implements Serializable {
+	public static class CpuInfo implements Serializable {
 		private String cpuName;
 		private int maxCpuFreq;
 		private int minCpuFreq;
@@ -150,8 +150,8 @@ public class DeviceInfo implements Serializable {
 		}
 	}
 
-	public class GpuInfo implements Serializable {
+	/*public class GpuInfo implements Serializable {
 
-	}
+	}*/
 
 }
