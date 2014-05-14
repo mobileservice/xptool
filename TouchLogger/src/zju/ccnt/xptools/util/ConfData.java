@@ -1,6 +1,7 @@
 package zju.ccnt.xptools.util;
 
 public class ConfData {
+	public static final Boolean IS_DEBUG_MODE = false;
 	public static final String HTTP_URL_HEAD = "http://192.168.0.96:8080/axis2/services/";
 	public static final String URL_CONNECTION_TEST=HTTP_URL_HEAD+"DeviceInfoService/testConnection";
 	public static final String URL_SAVE_TOUCH_DATA = HTTP_URL_HEAD + "TouchDataService/saveJsonListTouchData";

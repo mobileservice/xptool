@@ -1,7 +1,8 @@
-package zju.ccnt.xptools.util;
+package zju.ccnt.xptools.receiver;
 
 import zju.ccnt.xptools.http.HttpUtil;
 import zju.ccnt.xptools.http.TestConResponseHandler;
+import zju.ccnt.xptools.util.ConfData;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

@@ -28,6 +28,7 @@ import zju.ccnt.xptools.util.FileUtil;
 public class TraceView extends View {
 	Context mContext;
 	private static final String TAG = "Pointer";
+	private boolean isShowView;
 
 	public static class PointerState {
 
@@ -174,7 +175,10 @@ public class TraceView extends View {
 		mActivePointerId = 0;
 		mVelocity = VelocityTracker.obtain();
 		logInputDeviceCapabilities();
+		isShowView=ConfData.IS_DEBUG_MODE;
 	}
+	
+	
 
 	// by zhouqj
 	/**
@@ -239,6 +243,9 @@ public class TraceView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		Log.d("DRAW", "draw");
+		if(!isShowView)
+			return;
 		synchronized (mPointers) {
 			final int w = getWidth();
 			final int itemW = w / 7;

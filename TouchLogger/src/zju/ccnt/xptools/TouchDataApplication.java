@@ -2,10 +2,10 @@ package zju.ccnt.xptools;
 
 import zju.ccnt.xptools.http.HttpUtil;
 import zju.ccnt.xptools.http.TestConResponseHandler;
+import zju.ccnt.xptools.receiver.NetworkStateReceiver;
 import zju.ccnt.xptools.util.ConfData;
 import zju.ccnt.xptools.util.FileUtil;
 import zju.ccnt.xptools.util.NetWorkStateUtil;
-import zju.ccnt.xptools.util.NetworkStateReceiver;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
