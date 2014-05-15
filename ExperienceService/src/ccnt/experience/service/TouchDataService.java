@@ -104,23 +104,29 @@ public class TouchDataService {
 				+ touchDataModel.getDevice_id() + ",'"
 				+ touchDataModel.getCurrent_package() + "')";
 		String creatTable = " create table if not exists "
-				+ touchDataModel.getDevice_id() + " like "
+				+ "Table"
+				+ (touchDataModel.getDevice_id() == null ? "_default"
+						: touchDataModel.getDevice_id().trim()) + " like "
 				+ DataBaseInfo.TOUCH_DATA_TABLE;
 		String insertCoustomTable = "insert into "
-				+ touchDataModel.getDevice_id() + " "
+				+ "Table"
+				+ (touchDataModel.getDevice_id() == null ? "_default"
+						: touchDataModel.getDevice_id().trim()) + " "
 				+ DataBaseInfo.TOUCH_TABLE_FORM + " values ("
 				+ touchDataModel.getId() + ",'" + trace_detail + "','"
 				+ touchDataModel.getCurrent_app() + "','"
 				+ touchDataModel.getCurrent_activity() + "',"
 				+ touchDataModel.getDevice_id() + ",'"
 				+ touchDataModel.getCurrent_package() + "')";
+		System.out.println(insertTouchTable);
+		System.out.println(creatTable);
+		System.out.println(insertCoustomTable);
 		Statement statement = cnnConnection.createStatement();
 		statement.addBatch(insertTouchTable);
 		statement.addBatch(creatTable);
 		statement.addBatch(insertCoustomTable);
 		int ret = statement.executeBatch()[2];
 		// int ret = statement.executeUpdate(insertTouch);
-		System.out.println(insertTouchTable);
 		cnnConnection.close();
 		return ret;
 	}
