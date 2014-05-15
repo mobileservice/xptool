@@ -57,13 +57,21 @@ public class TestConResponseHandler extends AsyncHttpResponseHandler {
 		DeviceInfo deviceInfo = new DeviceInfo();
 		DeviceInfoUtil util = new DeviceInfoUtil(mContext);
 		deviceInfo.setId(util.getDeviceId());
+		Log.d("DEVICE", "deviceID:"+deviceInfo.getId());
 		deviceInfo.setxSize(util.getXSize());
+		Log.d("DEVICE", "XSize:"+deviceInfo.getxSize());
 		deviceInfo.setySize(util.getYSize());
+		Log.d("DEVICE", "YSize:"+deviceInfo.getySize());
 		deviceInfo.setCPU_info(util.getCpuInfo());
+		Log.d("DEVICE", "CPU:"+deviceInfo.getCPU_info());
 		deviceInfo.setStorage(util.getStorage());
+		Log.d("DEVICE", "storage:"+deviceInfo.getStorage());
 		deviceInfo.setModel(util.getModel());
+		Log.d("DEVICE", "model:"+deviceInfo.getModel());
 		deviceInfo.setSys_Version(util.getSysVersion());
+		Log.d("DEVICE", "Sys_Version:"+deviceInfo.getSys_Version());
 		deviceInfo.setOut_Storage(util.getOut_Storage());
+		Log.d("DEVICE", "Out_Storage:"+deviceInfo.getOut_Storage());
 		syncComponent.writeModel(deviceInfo);
 	}
 

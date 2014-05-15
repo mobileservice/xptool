@@ -36,6 +36,9 @@ public class DeviceInfoUtil {
 		TelephonyManager tm = (TelephonyManager) mContext
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		deviceId = tm.getDeviceId();
+		if (deviceId == null || deviceId.equals("")) {
+			deviceId = android.os.Build.SERIAL;
+		}
 		return deviceId;
 	}
 
