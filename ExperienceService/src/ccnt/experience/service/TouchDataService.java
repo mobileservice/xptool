@@ -40,8 +40,10 @@ public class TouchDataService {
 	 */
 	private void getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName(DataBaseInfo.JDBC_DRIVER);
+		// if (cnnConnection == null) {
 		cnnConnection = DriverManager.getConnection(DataBaseInfo.DATABASE_URL,
 				DataBaseInfo.DB_UNAME, DataBaseInfo.DB_PWORD);
+		// }
 	}
 
 	/*
@@ -89,19 +91,36 @@ public class TouchDataService {
 	private int saveTouchData(TouchDataModel touchDataModel)
 			throws SQLException, ClassNotFoundException {
 		getConnection();
+		System.out.println("进入saveTouchData");
 		log.info(touchDataModel.toString());
 		String trace_detail = pointDataToString(touchDataModel
 				.getTrace_detail());
-		String insertTouch = "insert into " + DataBaseInfo.TOUCH_DATA_TABLE
-				+ " " + DataBaseInfo.TOUCH_TABLE_FORM + " values ("
+		String insertTouchTable = "insert into "
+				+ DataBaseInfo.TOUCH_DATA_TABLE + " "
+				+ DataBaseInfo.TOUCH_TABLE_FORM + " values ("
+				+ touchDataModel.getId() + ",'" + trace_detail + "','"
+				+ touchDataModel.getCurrent_app() + "','"
+				+ touchDataModel.getCurrent_activity() + "',"
+				+ touchDataModel.getDevice_id() + ",'"
+				+ touchDataModel.getCurrent_package() + "')";
+		String creatTable = " create table if not exists "
+				+ touchDataModel.getDevice_id() + " like "
+				+ DataBaseInfo.TOUCH_DATA_TABLE;
+		String insertCoustomTable = "insert into "
+				+ touchDataModel.getDevice_id() + " "
+				+ DataBaseInfo.TOUCH_TABLE_FORM + " values ("
 				+ touchDataModel.getId() + ",'" + trace_detail + "','"
 				+ touchDataModel.getCurrent_app() + "','"
 				+ touchDataModel.getCurrent_activity() + "',"
 				+ touchDataModel.getDevice_id() + ",'"
 				+ touchDataModel.getCurrent_package() + "')";
 		Statement statement = cnnConnection.createStatement();
-		int ret = statement.executeUpdate(insertTouch);
-		System.out.println(insertTouch);
+		statement.addBatch(insertTouchTable);
+		statement.addBatch(creatTable);
+		statement.addBatch(insertCoustomTable);
+		int ret = statement.executeBatch()[2];
+		// int ret = statement.executeUpdate(insertTouch);
+		System.out.println(insertTouchTable);
 		cnnConnection.close();
 		return ret;
 	}
@@ -135,6 +154,7 @@ public class TouchDataService {
 	 * @para:动作链表
 	 */
 	private int saveListTouchData(ArrayList<TouchDataModel> touchDataModelList) {
+		System.out.println("进入saveListTouchData");
 		int ret = 0;
 		try {
 			ret = 1;
@@ -161,13 +181,12 @@ public class TouchDataService {
 	public int saveJsonListTouchData(String touchDatalList)
 			throws JsonParseException, JsonMappingException, IOException {
 		log.info(touchDatalList);
+		System.out.println("进入saveJsonListTouchData");
 		ObjectMapper mapper = new ObjectMapper();
-		@SuppressWarnings("unchecked")
 		ArrayList<TouchDataModel> touchDataModelList = (ArrayList<TouchDataModel>) mapper
-				.readValue(
-						touchDatalList,
-						mapper.getTypeFactory().constructParametricType(
-								ArrayList.class, TouchDataModel.class));
+				.readValue(touchDatalList, mapper.getTypeFactory()
+						.constructParametricType(ArrayList.class,
+								TouchDataModel.class));
 		int ret = saveListTouchData(touchDataModelList);
 		return ret;
 	}
