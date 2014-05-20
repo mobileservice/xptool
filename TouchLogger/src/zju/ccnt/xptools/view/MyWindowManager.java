@@ -79,20 +79,6 @@ public class MyWindowManager {
         WindowManager wm = (WindowManager)  
                 mContext.getSystemService(Context.WINDOW_SERVICE);  
         wm.addView(addView, lp);  
-		
-		//added by zjw:ok
-//		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-//				WindowManager.LayoutParams.MATCH_PARENT,
-//				WindowManager.LayoutParams.WRAP_CONTENT,
-//				WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-//				WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-//						| WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-//						| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-//				PixelFormat.TRANSLUCENT);
-//		WindowManager wm = (WindowManager) mContext
-//				.getSystemService(Context.WINDOW_SERVICE);
-//		wm.addView(addView, lp);
-
         if (mPointerLocationInputChannel == null) {  
             try {  
                 mPointerLocationInputChannel =  
